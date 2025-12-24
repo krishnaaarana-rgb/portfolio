@@ -1,410 +1,388 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRISHNA RANA | SYSTEMS ARCHITECT</title>
+    <title>KRISHNA RANA | SYSTEMS ARCHITECT [v2.0]</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+
     <style>
         :root {
-            --bg-page: #f8fafc;
-            --accent: #2563eb;
-            --mono: 'JetBrains Mono', monospace;
+            --bg: #030303;
+            --surface: #0a0a0a;
+            --surface-light: #141414;
+            --text-main: #e2e2e2;
+            --text-dim: #888888;
+            --accent: #3b82f6; /* Blue */
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --success: #10b981;
+            --font-main: 'Manrope', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
         }
 
+        /* --- RESET & BASE --- */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-page);
-            color: #0f172a;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-main);
             overflow-x: hidden;
-        }
-
-        .font-mono { font-family: var(--mono); }
-
-        /* --- VISUAL FX: GRIDS & CROSSHAIRS --- */
-        .grid-bg {
-            background-image: 
-                linear-gradient(to right, #e2e8f0 1px, transparent 1px),
-                linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        .crosshair {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            border-top: 2px solid #94a3b8;
-            border-left: 2px solid #94a3b8;
-            z-index: 50;
-            pointer-events: none;
-        }
-        .crosshair.tr { top: 20px; right: 20px; transform: rotate(90deg); }
-        .crosshair.br { bottom: 20px; right: 20px; transform: rotate(180deg); }
-        .crosshair.bl { bottom: 20px; left: 20px; transform: rotate(270deg); }
-        .crosshair.tl { top: 20px; left: 20px; }
-
-        /* --- ANIMATIONS --- */
-        .marquee-container { mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
-        .marquee-content { animation: scroll 40s linear infinite; }
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-        .scanline-overlay {
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
-            background-size: 100% 4px;
-            pointer-events: none;
+            cursor: none; /* Custom Cursor */
         }
         
-        /* Terminal Blink Cursor */
-        .cursor-blink { animation: blink 1s step-end infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        /* --- ROI CALCULATOR SLIDER --- */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border: 2px solid white;
+        ::selection { background: var(--accent); color: white; }
+        
+        /* --- CUSTOM CURSOR --- */
+        #cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 20px; height: 20px;
+            border: 1px solid var(--text-main);
             border-radius: 50%;
-            background: #2563eb;
-            cursor: pointer;
-            margin-top: -10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
         }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            cursor: pointer;
-            background: #cbd5e1;
-            border-radius: 2px;
+        #cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 4px; height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        body.hovering #cursor { width: 50px; height: 50px; background-color: rgba(255,255,255,0.1); border-color: transparent; }
+
+        /* --- TYPOGRAPHY UTILS --- */
+        .font-display { font-family: var(--font-display); }
+        .font-code { font-family: var(--font-code); }
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #888888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* --- UTILITY --- */
-        .btn-glitch:hover {
-            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-            background-color: #000; color: #fff;
+        /* --- VISUAL FX --- */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05; pointer-events: none; z-index: 50;
         }
-        @keyframes glitch {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 2px) }
-            40% { transform: translate(-2px, -2px) }
-            60% { transform: translate(2px, 2px) }
-            80% { transform: translate(2px, -2px) }
-            100% { transform: translate(0) }
+        
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed; inset: 0; background: #000; z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .loader-bar { width: 300px; height: 2px; background: #333; margin-top: 20px; position: relative; overflow: hidden; }
+        .loader-progress { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); width: 0%; }
+
+        /* --- GRID BACKGROUND --- */
+        #canvas-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.4;
+        }
+
+        /* --- UTILITIES --- */
+        .reveal-text { overflow: hidden; }
+        .reveal-text span { display: inline-block; transform: translateY(100%); }
+        
+        .magnetic-btn { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+        /* --- CHART BARS --- */
+        .chart-bar { transition: height 1s cubic-bezier(0.22, 1, 0.36, 1); }
     </style>
 </head>
-<body class="grid-bg relative selection:bg-blue-200">
+<body class="antialiased">
 
-    <div class="fixed inset-0 pointer-events-none z-50 mix-blend-multiply">
-        <div class="crosshair tl"></div>
-        <div class="crosshair tr"></div>
-        <div class="crosshair bl"></div>
-        <div class="crosshair br"></div>
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+
+    <div class="noise-overlay"></div>
+
+    <div id="canvas-container">
+        <canvas id="neuro"></canvas>
     </div>
 
-    <div id="mobileMenu" class="fixed inset-0 bg-white z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center gap-8 md:hidden">
-        <button onclick="toggleMenu()" class="absolute top-6 right-6 text-slate-900 p-2">
-            <i data-lucide="x" class="w-8 h-8"></i>
-        </button>
-        <a href="#protocol" onclick="toggleMenu()" class="text-2xl font-bold hover:text-blue-600">[01] PROTOCOL</a>
-        <a href="#calculator" onclick="toggleMenu()" class="text-2xl font-bold hover:text-blue-600">[02] ROI_CALC</a>
-        <a href="#work" onclick="toggleMenu()" class="text-2xl font-bold hover:text-blue-600">[03] SYSTEMS</a>
-        <a href="#reviews" onclick="toggleMenu()" class="text-2xl font-bold hover:text-blue-600">[04] INTEL</a>
+    <div id="preloader">
+        <div class="font-code text-xs text-green-500 mb-2">
+            <span id="loader-text">> INITIALIZING SYSTEM_CORE...</span>
+        </div>
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+        <div class="absolute bottom-10 font-code text-[10px] text-zinc-600">
+            SECURE_CONNECTION_ESTABLISHED // V 2.0.4
+        </div>
     </div>
 
-    <nav class="fixed top-0 w-full z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
-            <div class="flex items-center gap-2 font-mono font-bold tracking-tighter text-lg">
-                <div class="w-3 h-3 bg-blue-600 animate-pulse"></div>
-                KRISHNA_RANA<span class="text-slate-400">.ARCHITECT</span>
+    <nav class="fixed top-0 w-full z-40 px-6 py-6 mix-blend-difference text-white">
+        <div class="flex justify-between items-center max-w-[1400px] mx-auto">
+            <div class="font-code font-bold tracking-tighter text-sm flex items-center gap-2">
+                <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                KRISHNA_RANA<span class="opacity-50">.SYS</span>
             </div>
             
-            <div class="hidden md:flex gap-8 font-mono text-xs font-bold text-slate-500">
-                <a href="#protocol" class="hover:text-blue-600 transition-colors">[01] PROTOCOL</a>
-                <a href="#calculator" class="hover:text-blue-600 transition-colors">[02] ROI_CALC</a>
-                <a href="#work" class="hover:text-blue-600 transition-colors">[03] SYSTEMS</a>
-                <a href="#reviews" class="hover:text-blue-600 transition-colors">[04] INTEL</a>
+            <div class="hidden md:flex gap-12 font-code text-[11px] tracking-widest uppercase">
+                <a href="#protocol" class="hover:text-blue-400 transition-colors link-hover" data-cursor="hover">Protocol</a>
+                <a href="#calculator" class="hover:text-blue-400 transition-colors link-hover" data-cursor="hover">Simulation</a>
+                <a href="#work" class="hover:text-blue-400 transition-colors link-hover" data-cursor="hover">Blueprints</a>
             </div>
 
-            <button onclick="toggleMenu()" class="md:hidden p-2 text-slate-900">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
-
-            <a href="mailto:krishnarana@automationexperts.tech" class="hidden md:flex px-6 py-2 bg-slate-900 text-white font-mono text-xs font-bold hover:bg-blue-600 transition-colors items-center gap-2">
-                INIT_PROJECT <i data-lucide="terminal" class="w-3 h-3"></i>
+            <a href="mailto:krishnarana@automationexperts.tech" class="magnetic-btn group relative px-6 py-3 overflow-hidden border border-white/20 rounded-full" data-cursor="hover">
+                <div class="absolute inset-0 w-full h-full bg-white transition-all duration-300 transform translate-y-full group-hover:translate-y-0 mix-blend-difference"></div>
+                <span class="relative font-code text-xs font-bold group-hover:text-black transition-colors">INIT_PROJECT</span>
             </a>
         </div>
     </nav>
 
-    <header class="pt-32 pb-20 px-6 border-b border-slate-200 relative overflow-hidden bg-white/40">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div class="space-y-8 relative z-10">
-                <div class="inline-flex items-center gap-3 px-3 py-1 bg-slate-100 border border-slate-200 font-mono text-[10px] uppercase tracking-widest text-slate-500">
-                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                    System Status: Available for Retainer
+    <section class="min-h-screen flex items-center justify-center relative px-6 pt-20">
+        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-8 space-y-8 z-10">
+                <div class="overflow-hidden">
+                    <div class="hero-tag font-code text-xs text-blue-500 tracking-widest mb-4 border border-blue-500/30 inline-block px-3 py-1 rounded-full bg-blue-500/10 backdrop-blur-sm">
+                        ● AVAILABLE FOR RETAINER
+                    </div>
                 </div>
-
-                <h1 class="text-6xl md:text-8xl font-black tracking-tighter text-slate-900 leading-[0.85]">
-                    SCALE<br>
-                    WITHOUT<br>
-                    <span class="text-blue-600">HUMANS.</span>
+                
+                <h1 class="text-[12vw] lg:text-[7rem] leading-[0.85] font-display font-bold tracking-tighter text-white mix-blend-difference">
+                    <div class="reveal-text"><span>SCALE</span></div>
+                    <div class="reveal-text"><span>WITHOUT</span></div>
+                    <div class="reveal-text"><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">HUMANS.</span></div>
                 </h1>
 
-                <p class="text-xl text-slate-500 max-w-md font-light border-l-4 border-blue-600 pl-6 py-1">
-                    I architect self-healing automation ecosystems that replace operational friction with pure code.
+                <p class="hero-desc text-zinc-400 max-w-xl text-lg lg:text-xl font-light leading-relaxed border-l-2 border-blue-500 pl-6">
+                    I architect self-healing automation ecosystems. Replace friction with code. Your operations, running on autopilot.
                 </p>
 
-                <div class="flex flex-wrap gap-4 pt-4">
-                    <a href="#calculator" class="btn-glitch px-8 py-4 bg-slate-900 text-white font-mono text-sm font-bold border border-slate-900 transition-all flex items-center gap-2">
-                        <i data-lucide="calculator" class="w-4 h-4"></i> CALCULATE_SAVINGS
+                <div class="hero-btns flex flex-wrap gap-4 pt-6">
+                    <a href="#calculator" class="group relative px-8 py-4 bg-white text-black font-code text-sm font-bold rounded-sm overflow-hidden" data-cursor="hover">
+                        <div class="absolute inset-0 bg-blue-600 transform translate-y-full transition-transform duration-300 group-hover:translate-y-0"></div>
+                        <span class="relative group-hover:text-white transition-colors flex items-center gap-2">
+                             CALCULATE_ROI <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </span>
                     </a>
-                    <a href="#work" class="px-8 py-4 bg-white border border-slate-300 text-slate-900 font-mono text-sm font-bold hover:bg-slate-50 transition-colors">
-                        VIEW_BLUEPRINTS
+                    <a href="#work" class="px-8 py-4 border border-white/20 text-white font-code text-sm font-bold rounded-sm hover:bg-white/5 transition-colors" data-cursor="hover">
+                        VIEW_SYSTEMS
                     </a>
                 </div>
             </div>
 
-            <div class="hidden lg:block relative h-[500px] w-full bg-slate-900 text-slate-400 font-mono text-xs p-6 rounded shadow-2xl overflow-hidden border border-slate-700">
-                <div class="flex items-center gap-2 mb-6 border-b border-slate-700 pb-4">
-                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                    <span class="ml-auto text-slate-500">core_logic.py</span>
-                </div>
-                <div class="space-y-2 opacity-90">
-                    <p>> [SYSTEM] Initializing Optimization Protocol v4.0...</p>
-                    <p>> [AUDIT] Analyzing manual workflows...</p>
-                    <p class="text-red-400">> [ALERT] Inefficiency detected in Sales_Pipeline (Latency: 4hrs)</p>
-                    <p class="text-blue-400">> [ACTION] Deploying 'Lead_Velocity_Agent'...</p>
-                    <p>> [STATUS] Connecting to OpenAI API...</p>
-                    <p>> [STATUS] Connecting to Vapi Voice Gateway...</p>
-                    <p>> [STATUS] Connecting to Supabase Vector Store...</p>
-                    <p class="text-green-400">> [SUCCESS] Latency reduced to 400ms.</p>
-                    <p>> [REVENUE] ROI Projection: +450%</p>
-                    <br>
-                    <p class="animate-pulse text-white">_ Waiting for command...</p>
-                </div>
-                <div class="absolute bottom-6 right-6">
-                     <div class="w-24 h-24 border border-blue-500/30 rounded-full flex items-center justify-center animate-[spin_10s_linear_infinite]">
-                        <div class="w-full h-[1px] bg-blue-500/50"></div>
+            <div class="hidden lg:flex lg:col-span-4 flex-col justify-end pb-12">
+                <div class="glass-panel p-6 rounded-lg space-y-6">
+                    <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                        <span class="font-code text-xs text-zinc-500">SYSTEM_METRICS</span>
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-2xl font-display font-bold">99.9%</div>
+                            <div class="font-code text-[10px] text-zinc-500">UPTIME</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-display font-bold">~400ms</div>
+                            <div class="font-code text-[10px] text-zinc-500">LATENCY</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-display font-bold">$2.4M</div>
+                            <div class="font-code text-[10px] text-zinc-500">CLIENT_REVENUE</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-display font-bold">54</div>
+                            <div class="font-code text-[10px] text-zinc-500">ACTIVE_AGENTS</div>
+                        </div>
+                    </div>
+                    <div class="font-code text-[9px] text-zinc-600 pt-2">
+                        > last_update: just now<br>
+                        > status: operational
                     </div>
                 </div>
             </div>
         </div>
-    </header>
+    </section>
 
-    <div class="bg-black text-white text-[10px] font-mono py-3 border-y border-slate-800 overflow-hidden">
-        <div class="marquee-container">
-            <div class="marquee-content flex gap-12 whitespace-nowrap">
-                <span class="text-green-400">● SYSTEM_LOAD: 34%</span>
-                <span>ACTIVE_AGENTS: 54</span>
-                <span>TOKENS_PROCESSED: 1,402,993</span>
-                <span>AVG_LATENCY: 800ms</span>
-                <span>UPTIME: 99.99%</span>
-                <span class="text-green-400">● SYSTEM_LOAD: 34%</span>
-                <span>ACTIVE_AGENTS: 54</span>
-                <span>TOKENS_PROCESSED: 1,402,993</span>
-                <span>AVG_LATENCY: 800ms</span>
-                <span>UPTIME: 99.99%</span>
-            </div>
+    <div class="py-4 border-y border-white/10 bg-black overflow-hidden relative z-20">
+        <div class="marquee-wrapper flex gap-12 whitespace-nowrap font-code text-xs text-zinc-500 uppercase tracking-widest">
+            <span>/// System Architecture</span>
+            <span>/// Workflow Automation</span>
+            <span>/// LLM Integration</span>
+            <span>/// Vector Databases</span>
+            <span>/// Voice Agents</span>
+            <span>/// Revenue Ops</span>
+            <span>/// System Architecture</span>
+            <span>/// Workflow Automation</span>
+            <span>/// LLM Integration</span>
+            <span>/// Vector Databases</span>
+            <span>/// Voice Agents</span>
+            <span>/// Revenue Ops</span>
+            <span>/// System Architecture</span>
+            <span>/// Workflow Automation</span>
+            <span>/// LLM Integration</span>
+            <span>/// Vector Databases</span>
+            <span>/// Voice Agents</span>
+            <span>/// Revenue Ops</span>
         </div>
     </div>
 
-    <section id="protocol" class="py-24 px-6 border-b border-slate-200 bg-white">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex items-end justify-between mb-16">
-                <div>
-                    <h2 class="text-4xl font-bold mb-2">The Protocol</h2>
-                    <p class="text-slate-500 font-mono text-sm">/ HOW_I_WORK</p>
-                </div>
-                <div class="hidden md:block w-32 h-1 bg-slate-200"></div>
+    <section id="protocol" class="py-32 px-6 relative">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="mb-20">
+                <span class="font-code text-blue-500 text-xs tracking-widest mb-2 block">01 // METHODOLOGY</span>
+                <h2 class="text-5xl md:text-7xl font-display font-bold text-white">THE PROTOCOL</h2>
             </div>
 
-            <div class="grid md:grid-cols-4 gap-8 relative">
-                <div class="hidden md:block absolute top-8 left-0 w-full h-0.5 bg-slate-200 z-0"></div>
-
-                <div class="relative z-10 bg-white pt-4 md:pt-0 group hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-16 h-16 bg-white border-2 border-slate-900 text-slate-900 flex items-center justify-center font-bold text-xl mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:bg-slate-900 group-hover:text-white transition-colors">01</div>
-                    <h3 class="text-lg font-bold mb-2">Audit & Blueprint</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">I dissect your current operations. No code is written until the math makes sense.</p>
-                </div>
-                <div class="relative z-10 bg-white pt-4 md:pt-0 group hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-16 h-16 bg-blue-600 border-2 border-blue-600 text-white flex items-center justify-center font-bold text-xl mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">02</div>
-                    <h3 class="text-lg font-bold mb-2">Architect</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Designing the neural network. Selecting LLMs, vector DBs, and n8n workflows.</p>
-                </div>
-                <div class="relative z-10 bg-white pt-4 md:pt-0 group hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-16 h-16 bg-white border-2 border-slate-200 text-slate-400 flex items-center justify-center font-bold text-xl mb-6 group-hover:border-blue-500 group-hover:text-blue-500 transition-colors">03</div>
-                    <h3 class="text-lg font-bold mb-2">Deploy & Test</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Execution phase. Building agents, webhooks, and rigorous stress-testing.</p>
-                </div>
-                <div class="relative z-10 bg-white pt-4 md:pt-0 group hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-16 h-16 bg-white border-2 border-slate-200 text-slate-400 flex items-center justify-center font-bold text-xl mb-6 group-hover:border-blue-500 group-hover:text-blue-500 transition-colors">04</div>
-                    <h3 class="text-lg font-bold mb-2">Scale & Handover</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Optimization for volume. I provide full documentation so you own the system.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="calculator" class="py-24 px-6 bg-slate-50 border-b border-slate-200">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-12">
-                <span class="text-blue-600 font-mono text-xs font-bold tracking-widest uppercase">/// VALUE ENGINEERING</span>
-                <h2 class="text-3xl md:text-5xl font-bold mt-2">Calculate Your Delta</h2>
-                <p class="text-slate-500 mt-4">Quantify the cost of your current manual inefficiencies.</p>
-            </div>
-
-            <div class="bg-white p-8 md:p-12 border border-slate-200 shadow-xl rounded-sm">
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="space-y-10">
-                        <div>
-                            <div class="flex justify-between mb-4">
-                                <label class="text-xs font-bold uppercase tracking-wider text-slate-500">Hours Wasted / Week</label>
-                                <span class="font-mono font-bold text-blue-600"><span id="hoursDisplay">40</span> hrs</span>
-                            </div>
-                            <input type="range" min="0" max="200" value="40" id="hoursInput" oninput="updateCalc()">
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-4">
-                                <label class="text-xs font-bold uppercase tracking-wider text-slate-500">Hourly Cost ($)</label>
-                                <span class="font-mono font-bold text-blue-600">$<span id="rateDisplay">50</span>/hr</span>
-                            </div>
-                            <input type="range" min="15" max="150" value="50" id="rateInput" oninput="updateCalc()">
-                        </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="protocol-card group p-8 border-t border-white/20 hover:border-blue-500 hover:bg-white/5 transition-all duration-500 relative cursor-pointer">
+                    <span class="font-display text-6xl text-zinc-800 group-hover:text-blue-500/20 transition-colors absolute top-4 right-4 font-bold">01</span>
+                    <div class="h-32 flex items-end mb-6">
+                        <i data-lucide="scan-line" class="w-10 h-10 text-white group-hover:text-blue-500 transition-colors"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Audit & Deconstruct</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        I tear down your manual processes. We identify bottlenecks using data, not intuition. No code is written until the math works.
+                    </p>
+                </div>
 
-                    <div class="bg-slate-900 text-white p-8 flex flex-col justify-center items-center text-center relative overflow-hidden transition-all duration-300" id="resultBox">
-                        <div class="absolute inset-0 bg-blue-600/20 grid-bg opacity-30"></div>
-                        <div class="relative z-10">
-                            <div id="impactBadge" class="inline-block px-2 py-1 bg-white/10 text-[10px] font-mono text-green-400 mb-4 rounded border border-green-400/30">
-                                SIGNIFICANT IMPACT
-                            </div>
-
-                            <p class="text-slate-400 text-xs font-mono uppercase tracking-widest mb-2">Potential Annual Savings</p>
-                            <div class="text-5xl md:text-6xl font-black text-green-400 tracking-tighter mb-2">
-                                $<span id="savingsDisplay">104,000</span>
-                            </div>
-                            <p class="text-slate-500 text-xs">Based on 52 working weeks</p>
-                            
-                            <a href="mailto:krishnarana@automationexperts.tech?subject=I need to save 100k" class="mt-6 inline-flex items-center gap-2 text-xs font-bold font-mono text-white border-b border-green-400 hover:text-green-400 transition-colors">
-                                RECLAIM THIS CAPITAL <i data-lucide="arrow-right" class="w-3 h-3"></i>
-                            </a>
-                        </div>
+                <div class="protocol-card group p-8 border-t border-white/20 hover:border-blue-500 hover:bg-white/5 transition-all duration-500 relative cursor-pointer">
+                    <span class="font-display text-6xl text-zinc-800 group-hover:text-blue-500/20 transition-colors absolute top-4 right-4 font-bold">02</span>
+                    <div class="h-32 flex items-end mb-6">
+                        <i data-lucide="network" class="w-10 h-10 text-white group-hover:text-blue-500 transition-colors"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Neural Architecture</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Designing the brain. Selecting the right LLM models, vector stores, and API webhooks to create a self-sustaining loop.
+                    </p>
+                </div>
+
+                <div class="protocol-card group p-8 border-t border-white/20 hover:border-blue-500 hover:bg-white/5 transition-all duration-500 relative cursor-pointer">
+                    <span class="font-display text-6xl text-zinc-800 group-hover:text-blue-500/20 transition-colors absolute top-4 right-4 font-bold">03</span>
+                    <div class="h-32 flex items-end mb-6">
+                        <i data-lucide="cpu" class="w-10 h-10 text-white group-hover:text-blue-500 transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Deploy & Inject</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Live implementation. We replace human tasks one by one with autonomous agents, monitoring for hallucinations and latency.
+                    </p>
+                </div>
+
+                <div class="protocol-card group p-8 border-t border-white/20 hover:border-blue-500 hover:bg-white/5 transition-all duration-500 relative cursor-pointer">
+                    <span class="font-display text-6xl text-zinc-800 group-hover:text-blue-500/20 transition-colors absolute top-4 right-4 font-bold">04</span>
+                    <div class="h-32 flex items-end mb-6">
+                        <i data-lucide="infinity" class="w-10 h-10 text-white group-hover:text-blue-500 transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Scale & Handover</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Optimization for volume. I hand over the "keys" to the system with full documentation. You own the code.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="work" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto space-y-32">
-            <div class="border-b-4 border-black pb-8 flex justify-between items-end">
-                <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tight">System<br>Architecture</h2>
-                <div class="hidden md:block text-right font-mono text-xs text-slate-500">
-                    <p>DISPLAYING: PRODUCTION_BUILDS</p>
-                    <p>SECURITY: PUBLIC_VIEW</p>
-                </div>
+    <section id="calculator" class="py-32 px-6 bg-[#050505] border-y border-white/5 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        
+        <div class="max-w-[1200px] mx-auto relative z-10">
+            <div class="text-center mb-16">
+                <span class="font-code text-green-500 text-xs tracking-widest mb-2 block animate-pulse">● LIVE SIMULATION</span>
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-white">CALCULATE YOUR DELTA</h2>
+                <p class="text-zinc-500 mt-4 max-w-lg mx-auto">Input your current manual inefficiencies. The system will project your annual capital reclamation.</p>
             </div>
 
-            <div class="group">
-                <div class="grid lg:grid-cols-12 gap-8 mb-6">
-                    <div class="lg:col-span-4">
-                        <div class="font-mono text-xs text-blue-600 font-bold mb-2">/// CASE_STUDY_001</div>
-                        <h3 class="text-3xl font-bold mb-4">Proposal Generator</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                            Fully autonomous agent that accepts a prospect's URL, scrapes the brand voice, generates a proposal, and deploys a live website demo.
-                        </p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="px-2 py-1 bg-slate-100 text-[10px] font-mono border border-slate-200">Gemini</span>
-                            <span class="px-2 py-1 bg-slate-100 text-[10px] font-mono border border-slate-200">n8n</span>
+            <div class="grid lg:grid-cols-12 gap-12 bg-[#0a0a0a] border border-white/10 p-2 rounded-xl shadow-2xl">
+                
+                <div class="lg:col-span-4 bg-[#111] p-8 rounded-lg space-y-10 border border-white/5">
+                    <div>
+                        <div class="flex justify-between mb-4">
+                            <label class="text-xs font-bold uppercase tracking-wider text-zinc-400 font-code">Hours Wasted / Week</label>
+                            <span class="font-code font-bold text-blue-500"><span id="hoursVal">40</span> hrs</span>
                         </div>
-                        <ul class="text-xs font-mono space-y-2 border-t border-slate-200 pt-4">
-                            <li class="flex justify-between"><span>MANUAL_TIME:</span> <span class="text-red-500 line-through">4 Hours</span></li>
-                            <li class="flex justify-between"><span>AUTO_TIME:</span> <span class="text-green-600 font-bold">45 Seconds</span></li>
-                        </ul>
+                        <input type="range" min="0" max="100" value="40" class="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500" id="hoursInput" oninput="updateSim()">
                     </div>
-                    <div class="lg:col-span-8">
-                        <div class="w-full bg-slate-100 border border-slate-300 p-2 rounded relative overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
-                            <div class="scanline-overlay absolute inset-0 z-10"></div>
-                            <img src="https://drive.google.com/uc?export=view&id=16_EjrkYf3e4vJQoTKdjWL4Hv9MzdHT7A" class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                    
+                    <div>
+                        <div class="flex justify-between mb-4">
+                            <label class="text-xs font-bold uppercase tracking-wider text-zinc-400 font-code">Hourly Rate ($)</label>
+                            <span class="font-code font-bold text-blue-500">$<span id="rateVal">50</span>/hr</span>
                         </div>
+                        <input type="range" min="20" max="200" value="50" class="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500" id="rateInput" oninput="updateSim()">
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-4">
+                            <label class="text-xs font-bold uppercase tracking-wider text-zinc-400 font-code">Team Size</label>
+                            <span class="font-code font-bold text-blue-500"><span id="teamVal">1</span> emp</span>
+                        </div>
+                        <input type="range" min="1" max="20" value="1" class="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500" id="teamInput" oninput="updateSim()">
+                    </div>
+
+                    <div class="pt-6 border-t border-white/10">
+                        <div class="font-code text-[10px] text-zinc-600 mb-2">PROJECTION ALGORITHM: LINEAR</div>
+                        <div class="font-code text-[10px] text-green-500">EFFICIENCY_MULTIPLIER: 1.0x</div>
                     </div>
                 </div>
-            </div>
 
-            <div class="group">
-                <div class="grid lg:grid-cols-12 gap-8 mb-6">
-                    <div class="lg:col-span-4">
-                        <div class="font-mono text-xs text-purple-600 font-bold mb-2">/// CASE_STUDY_002</div>
-                        <h3 class="text-3xl font-bold mb-4">Veda Voice Core</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                            Voice-first hospitality concierge. Handles room service, bookings, and FAQs via phone with real-time database actions.
-                        </p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="px-2 py-1 bg-slate-100 text-[10px] font-mono border border-slate-200">Vapi.ai</span>
-                            <span class="px-2 py-1 bg-slate-100 text-[10px] font-mono border border-slate-200">OpenAI</span>
+                <div class="lg:col-span-8 bg-black relative rounded-lg p-8 flex flex-col justify-between border border-white/5">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-code text-xs text-zinc-500 mb-1">PROJECTED ANNUAL SAVINGS</div>
+                            <div class="font-display text-6xl text-white font-bold tracking-tighter" id="totalSavings">$104,000</div>
                         </div>
-                        <ul class="text-xs font-mono space-y-2 border-t border-slate-200 pt-4">
-                            <li class="flex justify-between"><span>LATENCY:</span> <span class="text-green-600 font-bold">~800ms</span></li>
-                            <li class="flex justify-between"><span>AVAILABILITY:</span> <span class="text-green-600 font-bold">24/7/365</span></li>
-                        </ul>
-                    </div>
-                    <div class="lg:col-span-8">
-                        <div class="w-full bg-slate-100 border border-slate-300 p-2 rounded relative overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
-                            <div class="scanline-overlay absolute inset-0 z-10"></div>
-                            <img src="https://drive.google.com/uc?export=view&id=1Tb3WrIzw3ndDo6LfPaxCCdwsv9drTu_B" class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="text-right">
+                             <div class="font-code text-xs text-zinc-500 mb-1">ROI RATING</div>
+                             <div class="inline-block px-2 py-1 bg-green-900/30 border border-green-500/30 text-green-400 text-xs font-bold font-code rounded" id="ratingBadge">A+</div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="group">
-                 <div class="grid lg:grid-cols-12 gap-8 mb-6">
-                    <div class="lg:col-span-4">
-                        <div class="font-mono text-xs text-slate-600 font-bold mb-2">/// CASE_STUDY_003</div>
-                        <h3 class="text-3xl font-bold mb-4">Notion ↔ Asana Sync</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                             Enterprise-grade bi-directional synchronization ensuring a single source of truth across thousands of records.
-                        </p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="px-2 py-1 bg-slate-100 text-[10px] font-mono border border-slate-200">API</span>
-                            <span class="px-2 py-1 bg-slate-100 text-[10px] font-mono border border-slate-200">Python</span>
+                    <div class="flex items-end gap-4 h-64 mt-12 w-full border-b border-white/10 pb-2 relative">
+                        <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
+                            <div class="w-full h-[1px] bg-white"></div>
+                            <div class="w-full h-[1px] bg-white"></div>
+                            <div class="w-full h-[1px] bg-white"></div>
+                            <div class="w-full h-[1px] bg-white"></div>
                         </div>
-                    </div>
-                    <div class="lg:col-span-8">
-                        <div class="w-full bg-slate-100 border border-slate-300 p-2 rounded relative overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
-                            <div class="scanline-overlay absolute inset-0 z-10"></div>
-                            <img src="https://drive.google.com/uc?export=view&id=16xYVLmvg9-qjFr5c4ubz5cFdaDJ2FUOG" class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="group">
-                 <div class="grid lg:grid-cols-12 gap-8 mb-6">
-                    <div class="lg:col-span-4">
-                        <div class="font-mono text-xs text-orange-600 font-bold mb-2">/// CASE_STUDY_004</div>
-                        <h3 class="text-3xl font-bold mb-4">Voice Lead Qualifier</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                             Automated sales rep that qualifies leads against a dynamic rubric, updates CRM scores, and schedules appointments.
-                        </p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="px-2 py-1 bg-slate-100 text-[10px] font-mono border border-slate-200">Sales</span>
-                            <span class="px-2 py-1 bg-slate-100 text-[10px] font-mono border border-slate-200">CRM</span>
+                        <div class="flex-1 flex flex-col justify-end gap-2 group">
+                            <div class="w-full bg-zinc-800 rounded-t-sm chart-bar h-[20%] group-hover:bg-zinc-700 transition-colors relative">
+                                <div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 text-xs font-code text-white bg-zinc-800 px-2 py-1 rounded">Current</div>
+                            </div>
+                            <span class="text-[10px] text-zinc-500 text-center font-code">Q1</span>
                         </div>
-                    </div>
-                    <div class="lg:col-span-8">
-                        <div class="w-full bg-slate-100 border border-slate-300 p-2 rounded relative overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
-                            <div class="scanline-overlay absolute inset-0 z-10"></div>
-                            <img src="https://drive.google.com/uc?export=view&id=1d-OW8H5b9i006vXlfsezHs81vaTEo7Mw" class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="flex-1 flex flex-col justify-end gap-2 group">
+                            <div class="w-full bg-blue-900 rounded-t-sm chart-bar h-[40%] group-hover:bg-blue-800 transition-colors relative"></div>
+                            <span class="text-[10px] text-zinc-500 text-center font-code">Q2</span>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-end gap-2 group">
+                            <div class="w-full bg-blue-700 rounded-t-sm chart-bar h-[65%] group-hover:bg-blue-600 transition-colors relative"></div>
+                            <span class="text-[10px] text-zinc-500 text-center font-code">Q3</span>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-end gap-2 group">
+                            <div class="w-full bg-blue-500 rounded-t-sm chart-bar h-[90%] shadow-[0_0_20px_rgba(59,130,246,0.5)] relative">
+                                <div class="opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 text-xs font-code text-blue-400 bg-black border border-blue-900 px-2 py-1 rounded">Optimized</div>
+                            </div>
+                            <span class="text-[10px] text-zinc-500 text-center font-code">Q4</span>
                         </div>
                     </div>
                 </div>
@@ -412,149 +390,362 @@
         </div>
     </section>
 
-    <section id="reviews" class="py-24 bg-slate-900 text-white border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center gap-4 mb-16">
-                <div class="w-16 h-[1px] bg-blue-500"></div>
-                <h2 class="text-2xl font-mono tracking-widest">FIELD_REPORTS</h2>
+    <section id="work" class="py-32 bg-[#080808]">
+        <div class="max-w-[1400px] mx-auto px-6 mb-20">
+            <span class="font-code text-blue-500 text-xs tracking-widest mb-2 block">02 // ARCHITECTURE</span>
+            <h2 class="text-5xl font-display font-bold text-white">DEPLOYED SYSTEMS</h2>
+        </div>
+
+        <div class="flex flex-col gap-32 max-w-[1400px] mx-auto px-6">
+            
+            <div class="project-row grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 space-y-6">
+                    <div class="font-code text-blue-500 text-sm">/// CASE_001: LEAD_GEN_AUTO</div>
+                    <h3 class="text-4xl text-white font-bold">Autonomous Proposal Engine</h3>
+                    <p class="text-zinc-400 leading-relaxed">
+                        A headless agent that scrapes prospect URLs, analyzes brand voice using GPT-4o, and generates a custom proposal microsite. Zero human touch.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-4">
+                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Next.js</span>
+                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Puppeteer</span>
+                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">OpenAI API</span>
+                    </div>
+                    <div class="pt-8 border-t border-white/10 grid grid-cols-2 gap-4">
+                         <div>
+                            <span class="block text-2xl font-bold text-white">95%</span>
+                            <span class="text-[10px] text-zinc-500 uppercase font-code">Time Reduction</span>
+                         </div>
+                         <div>
+                            <span class="block text-2xl font-bold text-white">45s</span>
+                            <span class="text-[10px] text-zinc-500 uppercase font-code">Generation Time</span>
+                         </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2 relative group cursor-none" data-cursor="view">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                    <div class="relative bg-[#111] rounded-xl overflow-hidden aspect-video border border-white/10">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0" alt="Dashboard">
+                    </div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-slate-800/50 p-6 border border-slate-700 hover:border-blue-500 transition-colors">
-                    <div class="flex items-center gap-4 mb-4">
-                        <img src="https://drive.google.com/uc?export=view&id=1h00yT9GsyZlXo7SP3uiTYGFfb94yzA1m" class="w-10 h-10 rounded-full border border-slate-600 grayscale">
-                        <div>
-                            <div class="font-bold text-sm">Dr. Aniket</div>
-                            <div class="text-[10px] text-slate-400 font-mono uppercase">IRI Dream Care</div>
-                        </div>
+            <div class="project-row grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-2 space-y-6">
+                    <div class="font-code text-purple-500 text-sm">/// CASE_002: VOICE_NEURAL_NET</div>
+                    <h3 class="text-4xl text-white font-bold">Concierge Voice AI</h3>
+                    <p class="text-zinc-400 leading-relaxed">
+                        Voice-to-action hospitality bot. Handles reservations, room service, and FAQs via phone with < 800ms latency. Direct SQL injection for bookings.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-4">
+                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Vapi.ai</span>
+                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Supabase</span>
+                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Python</span>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">"Fast answers, fewer calls, and a smoother experience for everyone. The AI assistant made our daily work much easier."</p>
+                    <div class="pt-8 border-t border-white/10 grid grid-cols-2 gap-4">
+                         <div>
+                            <span class="block text-2xl font-bold text-white">24/7</span>
+                            <span class="text-[10px] text-zinc-500 uppercase font-code">Availability</span>
+                         </div>
+                         <div>
+                            <span class="block text-2xl font-bold text-white">$12k</span>
+                            <span class="text-[10px] text-zinc-500 uppercase font-code">Monthly Savings</span>
+                         </div>
+                    </div>
                 </div>
-
-                <div class="bg-slate-800/50 p-6 border border-slate-700 hover:border-blue-500 transition-colors">
-                    <div class="flex items-center gap-4 mb-4">
-                        <img src="https://drive.google.com/uc?export=view&id=1CN1ABCC6VRJEaCbr2JXAPJz0EYnmrWOJ" class="w-10 h-10 rounded-full border border-slate-600 grayscale">
-                        <div>
-                            <div class="font-bold text-sm">Gagan</div>
-                            <div class="text-[10px] text-slate-400 font-mono uppercase">Ample Pubs</div>
-                        </div>
+                <div class="order-1 lg:order-1 relative group" data-cursor="view">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                    <div class="relative bg-[#111] rounded-xl overflow-hidden aspect-video border border-white/10">
+                         <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0" alt="Voice AI">
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">"We were drowning in operational chaos. This system centralized everything. It's the upgrade we didn't know we needed."</p>
                 </div>
+            </div>
 
-                <div class="bg-slate-800/50 p-6 border border-slate-700 hover:border-blue-500 transition-colors">
-                    <div class="flex items-center gap-4 mb-4">
-                        <img src="https://drive.google.com/uc?export=view&id=1DeOubSXhRZUGGcrCzzkdpyngEgp2G3k3" class="w-10 h-10 rounded-full border border-slate-600 grayscale">
-                        <div>
-                            <div class="font-bold text-sm">Andrew</div>
-                            <div class="text-[10px] text-slate-400 font-mono uppercase">CEO, AdCrunch</div>
-                        </div>
-                    </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">"Krishna's AI agents helped us build the seamless system we always wanted. Everything feels smoother."</p>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 bg-black border-t border-white/10 font-code">
+        <div class="max-w-[800px] mx-auto">
+            <div class="bg-[#0a0a0a] rounded-lg border border-white/10 overflow-hidden shadow-2xl">
+                <div class="bg-[#141414] px-4 py-3 border-b border-white/5 flex gap-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+                    <span class="ml-auto text-xs text-zinc-600">admin@krishnarana:~</span>
                 </div>
                 
-                <div class="bg-slate-800/50 p-6 border border-slate-700 hover:border-blue-500 transition-colors">
-                    <div class="flex items-center gap-4 mb-4">
-                        <img src="https://drive.google.com/uc?export=view&id=1E2-DIQDrsrlT1M8Y0UECsUhWXXQQvEc2" class="w-10 h-10 rounded-full border border-slate-600 grayscale">
-                        <div>
-                            <div class="font-bold text-sm">Tracy</div>
-                            <div class="text-[10px] text-slate-400 font-mono uppercase">CTO, Michael Curtis</div>
+                <div class="p-8 space-y-8 text-sm">
+                    <div class="space-y-2">
+                        <p class="text-zinc-500">guest@user:~$ <span class="text-white">./inquire --pricing</span></p>
+                        <div class="pl-4 border-l border-zinc-800 text-zinc-300">
+                            <p>> Loading pricing models...</p>
+                            <p class="text-green-400">[SUCCESS]</p>
+                            <p>1. <span class="text-white font-bold">RETAINER:</span> Monthly engagement for ongoing scaling and agent management.</p>
+                            <p>2. <span class="text-white font-bold">SPRINT:</span> Fixed-cost architectural build for specific systems.</p>
                         </div>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">"Transformed our raw sheets into clear, meaningful information that helps us make informed decisions."</p>
-                </div>
 
-                <div class="bg-slate-800/50 p-6 border border-slate-700 hover:border-blue-500 transition-colors">
-                    <div class="flex items-center gap-4 mb-4">
-                        <img src="https://drive.google.com/uc?export=view&id=1jcswGP7q1NZ2CJa3ubrrSy-S-4wL7dI0" class="w-10 h-10 rounded-full border border-slate-600 grayscale">
-                        <div>
-                            <div class="font-bold text-sm">Amisha</div>
-                            <div class="text-[10px] text-slate-400 font-mono uppercase">Ahmedabad</div>
+                    <div class="space-y-2">
+                        <p class="text-zinc-500">guest@user:~$ <span class="text-white">./inquire --maintenance</span></p>
+                        <div class="pl-4 border-l border-zinc-800 text-zinc-300">
+                            <p>> Checking SLA policies...</p>
+                            <p>Automations are living organisms. API endpoints change. I provide Priority Support to ensure 99.9% uptime.</p>
                         </div>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">"Deep research and constant testing lead to better outcomes. The chatbot experience feels genuinely human."</p>
+
+                    <div class="space-y-2">
+                        <p class="text-zinc-500">guest@user:~$ <span class="text-white">_</span><span class="animate-ping">|</span></p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-24 px-6 bg-black text-white font-mono border-t border-slate-800">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-xl mb-12 text-slate-400 flex items-center gap-2">
-                > root@user:~# cat faq.md <span class="w-2 h-4 bg-green-500 cursor-blink"></span>
-            </h2>
-            <div class="space-y-8">
-                <div>
-                    <p class="text-slate-500 text-sm mb-2">// Q: How does pricing work?</p>
-                    <p class="text-green-400 pl-4 border-l border-slate-700">A: Retainer (Monthly) for scaling. Sprint (Fixed) for builds.</p>
-                </div>
-                <div>
-                    <p class="text-slate-500 text-sm mb-2">// Q: Do you provide maintenance?</p>
-                    <p class="text-green-400 pl-4 border-l border-slate-700">A: Yes. Automation is a living organism. I provide Priority SLA support.</p>
-                </div>
+    <footer class="py-12 border-t border-white/10 bg-black">
+        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs font-code text-zinc-600">
+            <div>
+                KRISHNA_RANA_SYSTEMS © 2025
             </div>
-        </div>
-    </section>
-
-    <footer class="bg-white py-12 px-6 border-t border-slate-200">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-xs font-mono text-slate-500">
-            <div>KRISHNA RANA SYSTEMS © 2025</div>
             <div class="flex gap-6 mt-4 md:mt-0">
-                <a href="#" class="hover:text-black">LINKEDIN</a>
-                <a href="#" class="hover:text-black">GITHUB</a>
-                <a href="mailto:krishnarana@automationexperts.tech" class="hover:text-black">EMAIL</a>
+                <a href="#" class="hover:text-white transition-colors">LINKEDIN</a>
+                <a href="#" class="hover:text-white transition-colors">GITHUB</a>
+                <a href="#" class="hover:text-white transition-colors">EMAIL</a>
             </div>
         </div>
     </footer>
 
     <script>
+        // 1. INIT LUCIDE ICONS
         lucide.createIcons();
 
-        // Mobile Menu Logic (ADDED)
-        function toggleMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('translate-x-full');
+        // 2. SMOOTH SCROLL (LENIS)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
         }
+        requestAnimationFrame(raf);
 
-        // Updated Calculator with Animation (ADDED)
-        function updateCalc() {
-            const hours = document.getElementById('hoursInput').value;
-            const rate = document.getElementById('rateInput').value;
-            const savings = hours * rate * 52;
+        // 3. PRELOADER LOGIC
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
             
-            document.getElementById('hoursDisplay').innerText = hours;
-            document.getElementById('rateDisplay').innerText = rate;
-            
-            // Format number and animate text color based on impact
-            const savingsDisplay = document.getElementById('savingsDisplay');
-            savingsDisplay.innerText = savings.toLocaleString();
-            
-            const badge = document.getElementById('impactBadge');
-            if(savings > 100000) {
-                badge.innerText = "TRANSFORMATIONAL SAVINGS";
-                badge.className = "inline-block px-2 py-1 bg-green-500/20 text-[10px] font-mono text-green-400 mb-4 rounded border border-green-500/50 animate-pulse";
-            } else if (savings > 50000) {
-                badge.innerText = "SIGNIFICANT EFFICIENCY";
-                badge.className = "inline-block px-2 py-1 bg-blue-500/20 text-[10px] font-mono text-blue-400 mb-4 rounded border border-blue-500/50";
-            } else {
-                badge.innerText = "STANDARD OPTIMIZATION";
-                badge.className = "inline-block px-2 py-1 bg-slate-500/20 text-[10px] font-mono text-slate-400 mb-4 rounded border border-slate-500/50";
+            tl.to('.loader-progress', {
+                width: '100%',
+                duration: 1.5,
+                ease: "power2.inOut"
+            })
+            .to('#preloader', {
+                y: '-100%',
+                duration: 1,
+                ease: "expo.inOut",
+                delay: 0.2
+            })
+            .from('h1 .reveal-text span', {
+                y: '100%',
+                duration: 1.5,
+                stagger: 0.1,
+                ease: "power4.out"
+            }, "-=0.5")
+            .from('.hero-desc', {
+                opacity: 0,
+                x: -20,
+                duration: 1
+            }, "-=1")
+            .from('.hero-btns', {
+                opacity: 0,
+                y: 20,
+                duration: 1
+            }, "-=0.8");
+        });
+
+        // 4. GSAP ANIMATIONS
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate Protocol Cards
+        gsap.utils.toArray('.protocol-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: i * 0.1,
+                ease: "power3.out"
+            });
+        });
+
+        // Animate Project Rows
+        gsap.utils.toArray('.project-row').forEach((row) => {
+            gsap.from(row, {
+                scrollTrigger: {
+                    trigger: row,
+                    start: "top 80%",
+                },
+                y: 100,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+        });
+
+        // 5. CANVAS NEURAL NETWORK BACKGROUND
+        const canvas = document.getElementById("neuro");
+        const ctx = canvas.getContext("2d");
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = "rgba(59, 130, 246, 0.5)"; // Blue particles
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.remove('opacity-0', 'translate-y-10');
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
+        // Create particles
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                
+                // Draw connections
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 150) {
+                        ctx.strokeStyle = `rgba(59, 130, 246, ${0.1 - dist/1500})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
                 }
             });
-        }, { threshold: 0.1 });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
 
-        document.querySelectorAll('section > div').forEach((el) => {
-            el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
-            observer.observe(el);
+        // 6. CUSTOM CURSOR LOGIC
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+            
+            // Slight delay for the main ring for organic feel
+            setTimeout(() => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            }, 50);
         });
+
+        document.querySelectorAll('[data-cursor="hover"]').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // 7. SIMULATION LOGIC (DASHBOARD)
+        function updateSim() {
+            const hours = parseInt(document.getElementById('hoursInput').value);
+            const rate = parseInt(document.getElementById('rateInput').value);
+            const team = parseInt(document.getElementById('teamInput').value);
+            
+            document.getElementById('hoursVal').innerText = hours;
+            document.getElementById('rateVal').innerText = rate;
+            document.getElementById('teamVal').innerText = team;
+
+            const weeklyLoss = hours * rate * team;
+            const annualSavings = weeklyLoss * 52;
+            
+            // Animate Numbers
+            const display = document.getElementById('totalSavings');
+            const currentVal = parseInt(display.innerText.replace(/[^0-9]/g, '')) || 0;
+            
+            // Simple tween logic
+            let start = currentVal;
+            let end = annualSavings;
+            // Note: In a real React app we'd use state, here we just snap for performance or use a simple timer
+            display.innerText = '$' + annualSavings.toLocaleString();
+
+            // Update Badge
+            const badge = document.getElementById('ratingBadge');
+            if(annualSavings > 250000) {
+                badge.innerText = "S+ (CRITICAL)";
+                badge.className = "inline-block px-2 py-1 bg-red-900/30 border border-red-500/30 text-red-400 text-xs font-bold font-code rounded animate-pulse";
+            } else if (annualSavings > 100000) {
+                badge.innerText = "A (HIGH)";
+                badge.className = "inline-block px-2 py-1 bg-green-900/30 border border-green-500/30 text-green-400 text-xs font-bold font-code rounded";
+            } else {
+                badge.innerText = "B (STANDARD)";
+                badge.className = "inline-block px-2 py-1 bg-blue-900/30 border border-blue-500/30 text-blue-400 text-xs font-bold font-code rounded";
+            }
+            
+            // Update Bar Heights
+            const bars = document.querySelectorAll('.chart-bar');
+            bars[1].style.height = (20 + (annualSavings / 500000) * 20) + '%';
+            bars[2].style.height = (40 + (annualSavings / 500000) * 30) + '%';
+            bars[3].style.height = (60 + (annualSavings / 500000) * 40) + '%';
+        }
+        
+        // Init calc
+        updateSim();
+        
+        // Magnetic Button Logic
+        const magnetics = document.querySelectorAll('.magnetic-btn');
+        magnetics.forEach((btn) => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
     </script>
 </body>
 </html>
