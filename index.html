@@ -145,7 +145,7 @@
             transition: all 0.3s ease;
         }
         .nav-inner { height: 80px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; tracking: -0.02em; display: flex; align-items: center; gap: 8px; }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; tracking: -0.02em; display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-primary); }
         .logo-dot { width: 8px; height: 8px; background: var(--accent-blue); border-radius: 50%; }
         
         .nav-menu { display: flex; gap: 32px; align-items: center; }
@@ -217,7 +217,71 @@
         .stat-desc { font-size: 0.9rem; color: #94A3B8; }
 
         /* -----------------------------------------------------------------
-           6. CALCULATOR (ROI)
+           6. WORK (PORTFOLIO)
+           ----------------------------------------------------------------- */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .work-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .work-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: #CBD5E1;
+        }
+        .work-img-container {
+            width: 100%;
+            height: 300px;
+            background: #F1F5F9;
+            overflow: hidden;
+            position: relative;
+        }
+        .work-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .work-card:hover .work-img { transform: scale(1.05); }
+        
+        .work-content { padding: 32px; }
+        .work-tags { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+        .work-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 12px;
+            border-radius: 99px;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .work-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .work-desc { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
+        .work-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        /* -----------------------------------------------------------------
+           7. CALCULATOR (ROI)
            ----------------------------------------------------------------- */
         .calc-section { padding: 120px 0; background: #F8FAFC; }
         .calc-wrapper {
@@ -256,35 +320,6 @@
         }
         .calc-big-num { font-size: 4.5rem; font-weight: 700; color: #4ADE80; line-height: 1; letter-spacing: -2px; font-family: 'Space Grotesk'; }
         .calc-sub { font-size: 0.9rem; color: #94A3B8; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* -----------------------------------------------------------------
-           7. BENTO GRID (FEATURES)
-           ----------------------------------------------------------------- */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 350px);
-            gap: 24px;
-            margin-top: 60px;
-        }
-        .bento-card {
-            background: #F8FAFC;
-            border: 1px solid #E2E8F0;
-            border-radius: var(--radius-lg);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.3s ease;
-        }
-        .bento-card:hover { transform: translateY(-4px); border-color: #CBD5E1; }
-        .bento-wide { grid-column: span 2; background: white; }
-        .bento-tall { grid-row: span 2; background: var(--bg-dark); color: white; }
-        .bento-tall h3, .bento-tall p { color: white; }
-        .bento-tall p { opacity: 0.7; }
-        
-        .bento-icon { width: 48px; height: 48px; background: white; border: 1px solid #E2E8F0; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
-        .bento-tall .bento-icon { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.1); color: white; }
 
         /* -----------------------------------------------------------------
            8. TIMELINE (PROTOCOL)
@@ -384,9 +419,8 @@
             h1 { font-size: 3rem; }
             .hero-layout { grid-template-columns: 1fr; gap: 40px; }
             .dashboard-visual { display: none; } /* Hide on tablet/mobile for cleaner look */
-            .phil-grid, .calc-wrapper, .bento-grid, .pricing-grid { grid-template-columns: 1fr; }
+            .phil-grid, .calc-wrapper, .work-grid, .pricing-grid { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: 1fr 1fr; }
-            .bento-wide, .bento-tall { grid-column: auto; grid-row: auto; }
             .pricing-grid { gap: 24px; }
             .price-card.featured { transform: scale(1); }
             .nav-menu { display: none; } /* Use simple mobile menu logic if needed */
@@ -403,8 +437,8 @@
             </a>
             <div class="nav-menu">
                 <a href="#philosophy" class="nav-link">Philosophy</a>
-                <a href="#process" class="nav-link">The Protocol</a>
-                <a href="#results" class="nav-link">Results</a>
+                <a href="#work" class="nav-link">Systems</a>
+                <a href="#process" class="nav-link">Protocol</a>
                 <a href="#pricing" class="nav-link">Engagement</a>
                 <a href="#contact" class="btn btn-primary">Start Audit</a>
             </div>
@@ -422,7 +456,7 @@
                     </p>
                     <div style="display: flex; gap: 16px;">
                         <a href="#calculator" class="btn btn-primary">Calculate ROI</a>
-                        <a href="#process" class="btn btn-secondary">View Blueprints</a>
+                        <a href="#work" class="btn btn-secondary">View Blueprints</a>
                     </div>
                 </div>
 
@@ -511,6 +545,97 @@
         </div>
     </section>
 
+    <section class="section-padding" id="work">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 60px;">
+                <h2>Deployed Architectures</h2>
+                <p class="lead" style="margin: 0 auto;">Live production systems handling real revenue.</p>
+            </div>
+
+            <div class="work-grid reveal">
+                <div class="work-card">
+                    <div class="work-img-container">
+                        <img src="https://drive.google.com/uc?export=view&id=16_EjrkYf3e4vJQoTKdjWL4Hv9MzdHT7A" alt="Proposal Generator Dashboard" class="work-img">
+                    </div>
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="work-tag">Next.js</span>
+                            <span class="work-tag">Puppeteer</span>
+                            <span class="work-tag">OpenAI</span>
+                        </div>
+                        <h3 class="work-title">Autonomous Proposal Engine</h3>
+                        <p class="work-desc">
+                            A headless agent that scrapes prospect URLs, analyzes brand voice, and generates a custom proposal microsite in seconds. Zero human touch required.
+                        </p>
+                        <div class="work-stat">
+                            <i data-lucide="zap" width="16"></i> 95% Reduction in Admin Time
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="work-img-container">
+                        <img src="https://drive.google.com/uc?export=view&id=1Tb3WrIzw3ndDo6LfPaxCCdwsv9drTu_B" alt="Veda Voice Interface" class="work-img">
+                    </div>
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="work-tag">Vapi.ai</span>
+                            <span class="work-tag">Python</span>
+                            <span class="work-tag">Supabase</span>
+                        </div>
+                        <h3 class="work-title">Veda Voice Core</h3>
+                        <p class="work-desc">
+                            Voice-first hospitality concierge. Handles room service, bookings, and FAQs via phone with < 800ms latency. Direct SQL injection for bookings.
+                        </p>
+                        <div class="work-stat">
+                            <i data-lucide="phone" width="16"></i> 24/7 Availability Achieved
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="work-img-container">
+                        <img src="https://drive.google.com/uc?export=view&id=16xYVLmvg9-qjFr5c4ubz5cFdaDJ2FUOG" alt="Notion Asana Sync" class="work-img">
+                    </div>
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="work-tag">API Integration</span>
+                            <span class="work-tag">n8n</span>
+                            <span class="work-tag">Python</span>
+                        </div>
+                        <h3 class="work-title">Enterprise Sync Engine</h3>
+                        <p class="work-desc">
+                            Bi-directional synchronization between Notion and Asana. Ensures a single source of truth across thousands of project records without conflicts.
+                        </p>
+                        <div class="work-stat">
+                            <i data-lucide="refresh-cw" width="16"></i> Real-time Data Consistency
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="work-img-container">
+                        <img src="https://drive.google.com/uc?export=view&id=1d-OW8H5b9i006vXlfsezHs81vaTEo7Mw" alt="Voice Lead Qualifier" class="work-img">
+                    </div>
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="work-tag">Sales AI</span>
+                            <span class="work-tag">CRM</span>
+                            <span class="work-tag">Voice</span>
+                        </div>
+                        <h3 class="work-title">Voice Lead Qualifier</h3>
+                        <p class="work-desc">
+                            Automated sales rep that calls leads, qualifies them against a dynamic rubric, updates CRM scores, and schedules appointments for closers.
+                        </p>
+                        <div class="work-stat">
+                            <i data-lucide="trending-up" width="16"></i> 3x Increase in Qualified Leads
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="calc-section" id="calculator">
         <div class="container">
             <div class="text-center" style="margin-bottom: 60px;">
@@ -552,53 +677,6 @@
                     <div style="margin-top: 32px;">
                         <a href="#contact" class="btn btn-secondary" style="background: rgba(255,255,255,0.1); color: white; border: none;">Claim This Capital</a>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-padding" id="results">
-        <div class="container">
-            <div class="text-center">
-                <h2>Intelligence at Scale</h2>
-                <p class="lead" style="margin: 0 auto;">A suite of capabilities designed to replace friction with flow.</p>
-            </div>
-            
-            <div class="bento-grid reveal">
-                <div class="bento-card bento-wide">
-                    <div>
-                        <div class="bento-icon"><i data-lucide="bot" color="#2563EB"></i></div>
-                        <h3>Autonomous Agents</h3>
-                        <p style="color: var(--text-secondary); margin-top: 12px;">
-                            I build headless agents that scrape prospect URLs, analyze brand voice, generate proposals, and send emails without you lifting a finger.
-                        </p>
-                    </div>
-                </div>
-                <div class="bento-card bento-tall">
-                    <div>
-                        <div class="bento-icon"><i data-lucide="database"></i></div>
-                        <h3>Vector Memory</h3>
-                        <p style="margin-top: 12px;">
-                            Standard GPT forgets. My systems remember. I implement RAG (Retrieval Augmented Generation) so your AI knows your entire PDF history, client database, and SOPs perfectly.
-                        </p>
-                    </div>
-                    <div style="margin-top: auto; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 0.8rem;">
-                        <i data-lucide="check" width="12" style="display:inline; margin-right:4px;"></i> Pinecone / Supabase Integration
-                    </div>
-                </div>
-                <div class="bento-card">
-                    <div class="bento-icon"><i data-lucide="phone" color="#2563EB"></i></div>
-                    <h3>Voice AI</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                        Sub-800ms latency voice agents that handle inbound support and outbound qualification calls.
-                    </p>
-                </div>
-                <div class="bento-card">
-                    <div class="bento-icon"><i data-lucide="zap" color="#2563EB"></i></div>
-                    <h3>Webhook Orchestration</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                        Connecting your disparate apps (Notion, Asana, Salesforce) into a single, unified nervous system.
-                    </p>
                 </div>
             </div>
         </div>
