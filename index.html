@@ -1,570 +1,379 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Krishna Rana | Automation Architect</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Base Settings */
+        :root {
+            --primary: #2563eb; /* Royal Blue */
+        }
+        
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif; 
-            background: #000;
-            color: #f5f5f7;
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #f8fafc; /* Slate 50 */
+            color: #0f172a; /* Slate 900 */
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
+
+        /* Subtle Background Pattern */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, transparent, 10%, white, 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, 5%, black, 95%, transparent);
+        }
+
+        /* Glass Effect for Light Mode */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        /* Animations */
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-enter {
+            animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+
+        /* Marquee Animation */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+            animation: scroll 30s linear infinite;
+        }
         
+        /* Utility */
         .gradient-text {
-            background: linear-gradient(90deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .glass {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-30px) scale(1.05); }
-        }
-        
-        .floating { animation: float 8s ease-in-out infinite; }
-        
-        @keyframes slide {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-        
-        .animate-slide { animation: slide 25s linear infinite; }
-        
-        @keyframes scrollLeft {
-            from { transform: translateX(0); }
-            to { transform: translateX(-100%); }
-        }
-        
-        .scroll-left { animation: scrollLeft 40s linear infinite; }
-        
-        .project-card {
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .project-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%);
-            opacity: 0;
-            transition: opacity 0.6s;
-            z-index: 1;
-        }
-        
-        .project-card:hover::before {
-            opacity: 1;
-        }
-        
-        .project-card:hover {
-            transform: scale(1.02);
-        }
-        
-        .project-card img {
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .project-card:hover img {
-            transform: scale(1.1);
-        }
-        
-        .nav-link {
-            position: relative;
-            transition: color 0.3s;
-        }
-        
-        .nav-link:hover {
-            color: #06b6d4;
         }
 
-        .bg-grid {
-            background-image: 
-                linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
+        .project-card:hover .project-image {
+            transform: scale(1.05);
         }
         
-        .metric-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Hide scrollbar for review section */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        
-        .metric-card:hover {
-            background: rgba(6, 182, 212, 0.05);
-            border-color: rgba(6, 182, 212, 0.2);
-            transform: translateY(-4px);
-        }
-
-        .review-card {
-            min-width: 400px;
-            flex-shrink: 0;
-        }
-
-        .review-container {
-            display: flex;
-            animation: scrollLeft 40s linear infinite;
-        }
-
-        .review-container:hover {
-            animation-play-state: paused;
-        }
-
-        @media (max-width: 768px) {
-            .review-card {
-                min-width: 300px;
-            }
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #06b6d4, #3b82f6);
-            transition: all 0.3s;
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .scroll-fade {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .scroll-fade.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        section {
-            scroll-margin-top: 80px;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
-<body class="bg-black text-[#f5f5f7]">
+<body class="relative">
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-xl font-semibold">KR</div>
-            <div class="flex gap-8 items-center">
-                <a href="#work" class="nav-link text-sm font-medium">Work</a>
-                <a href="#reviews" class="nav-link text-sm font-medium">Reviews</a>
-                <a href="#about" class="nav-link text-sm font-medium">About</a>
-                <a href="mailto:krishnarana@automationexperts.tech" class="px-6 py-2 btn-primary rounded-full text-sm font-medium">
-                    Contact
+    <div class="fixed inset-0 bg-grid-pattern z-[-1] opacity-[0.4] pointer-events-none"></div>
+
+    <nav class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+        <div class="glass-panel rounded-full px-2 py-2 flex items-center shadow-lg shadow-black/5">
+            <a href="#" class="px-5 py-2 font-bold text-slate-800 hover:text-blue-600 transition-colors">KR</a>
+            <div class="w-px h-6 bg-slate-200 mx-1"></div>
+            <div class="flex items-center gap-1">
+                <a href="#work" class="px-5 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100/50 rounded-full transition-all">Work</a>
+                <a href="#reviews" class="px-5 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100/50 rounded-full transition-all">Reviews</a>
+                <a href="#about" class="px-5 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100/50 rounded-full transition-all">About</a>
+            </div>
+            <div class="pl-2">
+                <a href="mailto:krishnarana@automationexperts.tech" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-blue-600 transition-colors shadow-lg shadow-blue-600/20">
+                    Let's Talk
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="min-h-screen flex items-center justify-center relative bg-grid pt-20">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
+    <section class="min-h-screen flex flex-col justify-center items-center pt-32 pb-20 px-6 relative overflow-hidden">
         
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="text-center space-y-8">
-                <div class="inline-flex items-center gap-2 px-4 py-2 glass rounded-full mb-4">
-                    <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                    <span class="text-sm text-gray-300">Available for Projects</span>
-                </div>
-                
-                <h1 class="text-6xl md:text-8xl font-semibold leading-tight tracking-tight">
-                    Building <span class="gradient-text">Intelligent</span><br>
-                    Automation Systems
-                </h1>
-                
-                <p class="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light">
-                    I architect autonomous AI workflows that eliminate manual friction and scale businesses without headcount
-                </p>
-                
-                <div class="flex gap-4 justify-center pt-8">
-                    <a href="#work" class="px-8 py-4 btn-primary rounded-full font-medium">
-                        View Projects
-                    </a>
-                    <a href="mailto:krishnarana@automationexperts.tech" class="px-8 py-4 glass rounded-full font-medium hover:bg-white/5 transition-all">
-                        Get in Touch
-                    </a>
-                </div>
-                
-                <!-- Metrics -->
-                <div class="grid grid-cols-3 gap-6 max-w-4xl mx-auto pt-20">
-                    <div class="metric-card glass rounded-3xl p-8 border border-white/5">
-                        <div class="text-5xl font-semibold gradient-text">54+</div>
-                        <div class="text-sm text-gray-400 mt-3">Active Workflows</div>
-                    </div>
-                    <div class="metric-card glass rounded-3xl p-8 border border-white/5">
-                        <div class="text-5xl font-semibold gradient-text">$15K+</div>
-                        <div class="text-sm text-gray-400 mt-3">Monthly Savings</div>
-                    </div>
-                    <div class="metric-card glass rounded-3xl p-8 border border-white/5">
-                        <div class="text-5xl font-semibold gradient-text">100%</div>
-                        <div class="text-sm text-gray-400 mt-3">Client Success</div>
-                    </div>
-                </div>
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl -z-10" style="animation-delay: 1s"></div>
+
+        <div class="max-w-4xl mx-auto text-center space-y-8">
+            <div class="animate-enter inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold uppercase tracking-wide">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                Available for New Projects
+            </div>
+            
+            <h1 class="animate-enter delay-100 text-5xl md:text-7xl font-bold tracking-tight text-slate-900 leading-[1.1]">
+                I engineer time by <br>
+                <span class="gradient-text">automating the mundane.</span>
+            </h1>
+            
+            <p class="animate-enter delay-200 text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                I architect self-healing AI workflows that eliminate manual friction, allowing businesses to scale revenue without scaling headcount.
+            </p>
+            
+            <div class="animate-enter delay-300 flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <a href="#work" class="px-8 py-4 bg-slate-900 text-white rounded-2xl font-medium hover:bg-slate-800 transition-all hover:scale-105 shadow-xl shadow-slate-900/10">
+                    View Portfolio
+                </a>
+                <a href="https://www.linkedin.com/in/krishnaaarana/" target="_blank" class="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-2xl font-medium hover:border-blue-300 hover:text-blue-600 transition-all hover:scale-105">
+                    LinkedIn Profile
+                </a>
             </div>
         </div>
-        
-        <!-- Floating Elements -->
-        <div class="absolute top-20 left-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl floating"></div>
-        <div class="absolute bottom-20 right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl floating" style="animation-delay: -4s;"></div>
-        <div class="absolute top-1/2 right-1/4 w-24 h-24 bg-purple-500/10 rounded-full blur-3xl floating" style="animation-delay: -2s;"></div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-5xl mt-24 animate-enter delay-300">
+            <div class="glass-panel p-6 rounded-2xl text-center">
+                <div class="text-3xl font-bold text-slate-900">54+</div>
+                <div class="text-sm text-slate-500 font-medium">Active Systems</div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl text-center">
+                <div class="text-3xl font-bold text-slate-900">$15k+</div>
+                <div class="text-sm text-slate-500 font-medium">Monthly Saved</div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl text-center">
+                <div class="text-3xl font-bold text-slate-900">10k+</div>
+                <div class="text-sm text-slate-500 font-medium">Leads Enriched</div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl text-center">
+                <div class="text-3xl font-bold text-slate-900">100%</div>
+                <div class="text-sm text-slate-500 font-medium">Uptime</div>
+            </div>
+        </div>
     </section>
 
-    <!-- Tech Stack Marquee -->
-    <div class="py-16 border-y border-white/5 overflow-hidden">
-        <div class="flex whitespace-nowrap animate-slide">
-            <div class="flex gap-16 px-8 text-gray-500 text-lg font-medium">
-                <span>n8n</span>
-                <span>Python</span>
-                <span>OpenAI</span>
-                <span>Claude</span>
-                <span>Gemini</span>
-                <span>Netlify</span>
-                <span>Apify</span>
-                <span>Airtable</span>
-                <span>Vapi.ai</span>
-                <span>Pinecone</span>
+    <div class="py-12 border-y border-slate-200 bg-white/50 backdrop-blur-sm overflow-hidden">
+        <div class="flex whitespace-nowrap animate-scroll">
+            <div class="flex gap-16 px-8 items-center">
+                <span class="text-xl font-semibold text-slate-400">n8n</span>
+                <span class="text-xl font-semibold text-slate-400">Python</span>
+                <span class="text-xl font-semibold text-slate-400">OpenAI</span>
+                <span class="text-xl font-semibold text-slate-400">Anthropic</span>
+                <span class="text-xl font-semibold text-slate-400">Gemini 1.5</span>
+                <span class="text-xl font-semibold text-slate-400">Supabase</span>
+                <span class="text-xl font-semibold text-slate-400">Make</span>
+                <span class="text-xl font-semibold text-slate-400">Vapi.ai</span>
+                <span class="text-xl font-semibold text-slate-400">Pinecone</span>
+                <span class="text-xl font-semibold text-slate-400">AirTable</span>
             </div>
-            <div class="flex gap-16 px-8 text-gray-500 text-lg font-medium">
-                <span>n8n</span>
-                <span>Python</span>
-                <span>OpenAI</span>
-                <span>Claude</span>
-                <span>Gemini</span>
-                <span>Netlify</span>
-                <span>Apify</span>
-                <span>Airtable</span>
-                <span>Vapi.ai</span>
-                <span>Pinecone</span>
+            <div class="flex gap-16 px-8 items-center">
+                <span class="text-xl font-semibold text-slate-400">n8n</span>
+                <span class="text-xl font-semibold text-slate-400">Python</span>
+                <span class="text-xl font-semibold text-slate-400">OpenAI</span>
+                <span class="text-xl font-semibold text-slate-400">Anthropic</span>
+                <span class="text-xl font-semibold text-slate-400">Gemini 1.5</span>
+                <span class="text-xl font-semibold text-slate-400">Supabase</span>
+                <span class="text-xl font-semibold text-slate-400">Make</span>
+                <span class="text-xl font-semibold text-slate-400">Vapi.ai</span>
+                <span class="text-xl font-semibold text-slate-400">Pinecone</span>
+                <span class="text-xl font-semibold text-slate-400">AirTable</span>
             </div>
         </div>
     </div>
 
-    <!-- Projects Section -->
-    <section id="work" class="py-32 px-6">
+    <section id="work" class="py-32 px-6 bg-slate-50">
         <div class="max-w-7xl mx-auto">
-            <div class="mb-20 scroll-fade">
-                <span class="text-cyan-400 text-sm font-medium uppercase tracking-wider">Portfolio</span>
-                <h2 class="text-5xl md:text-7xl font-semibold mt-3 tracking-tight">Featured Projects</h2>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Project 1 - Proposal Generator -->
-                <div class="project-card glass rounded-3xl overflow-hidden group cursor-pointer scroll-fade">
-                    <div class="aspect-[4/3] relative overflow-hidden">
-                        <img src="https://drive.google.com/uc?export=view&id=16_EjrkYf3e4vJQoTKdjWL4Hv9MzdHT7A" alt="Proposal Generator" class="w-full h-full object-cover">
-                        <div class="absolute top-6 left-6 z-10">
-                            <span class="px-4 py-2 bg-cyan-500 rounded-full text-xs font-semibold text-black">NEW RELEASE</span>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-3xl font-semibold mb-3">Proposal Generator</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed">Automated proposal engine integrating Gemini & Netlify for instant website generation</p>
-                        <div class="flex gap-2 flex-wrap">
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">Gemini</span>
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">Netlify</span>
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">n8n</span>
-                        </div>
-                    </div>
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div>
+                    <h2 class="text-4xl font-bold text-slate-900 mb-4">Selected Work</h2>
+                    <p class="text-slate-500 max-w-md">Systems designed for scalability, speed, and autonomy.</p>
                 </div>
-
-                <!-- Project 2 - Veda -->
-                <div class="project-card glass rounded-3xl overflow-hidden group cursor-pointer scroll-fade" onclick="window.open('https://vedaconcierge.com/', '_blank')">
-                    <div class="aspect-[4/3] relative overflow-hidden">
-                        <img src="https://drive.google.com/uc?export=view&id=1Tb3WrIzw3ndDo6LfPaxCCdwsv9drTu_B" alt="Veda Concierge" class="w-full h-full object-cover">
-                        <div class="absolute top-6 left-6 z-10">
-                            <span class="px-4 py-2 bg-blue-500 rounded-full text-xs font-semibold text-white">FLAGSHIP</span>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-3xl font-semibold mb-3">Veda Concierge</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed">AI-powered hospitality assistant handling guest requests 24/7</p>
-                        <div class="flex gap-2 flex-wrap">
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">OpenAI</span>
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">Vapi.ai</span>
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">Python</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 3 - Notion Asana -->
-                <div class="project-card glass rounded-3xl overflow-hidden group cursor-pointer scroll-fade">
-                    <div class="aspect-[4/3] relative overflow-hidden">
-                        <img src="https://drive.google.com/uc?export=view&id=16xYVLmvg9-qjFr5c4ubz5cFdaDJ2FUOG" alt="Notion Asana Sync" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-3xl font-semibold mb-3">Notion ↔ Asana Sync</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed">Bi-directional synchronization architecture for seamless project management</p>
-                        <div class="flex gap-2 flex-wrap">
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">Notion API</span>
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">Asana API</span>
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">n8n</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 4 - Voice -->
-                <div class="project-card glass rounded-3xl overflow-hidden group cursor-pointer scroll-fade">
-                    <div class="aspect-[4/3] relative overflow-hidden">
-                        <img src="https://drive.google.com/uc?export=view&id=1d-OW8H5b9i006vXlfsezHs81vaTEo7Mw" alt="Voice Qualification System" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-3xl font-semibold mb-3">Voice Qualification System</h3>
-                        <p class="text-gray-400 mb-6 leading-relaxed">AI voice agent for automated sales qualification and lead scoring</p>
-                        <div class="flex gap-2 flex-wrap">
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">Vapi.ai</span>
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">Claude</span>
-                            <span class="px-4 py-2 glass rounded-full text-xs font-medium">Airtable</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-16">
-                <a href="https://www.linkedin.com/in/krishnaaarana/" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 glass rounded-full hover:bg-white/5 transition-all text-lg">
-                    <span>View All Projects</span>
-                    <span class="text-cyan-400">→</span>
+                <a href="https://github.com/yourusername" target="_blank" class="text-blue-600 font-medium hover:text-blue-700 flex items-center gap-2">
+                    View GitHub <span aria-hidden="true">&rarr;</span>
                 </a>
             </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="lg:col-span-2 group project-card bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300">
+                    <div class="grid md:grid-cols-2 h-full">
+                        <div class="p-10 flex flex-col justify-between order-2 md:order-1">
+                            <div>
+                                <div class="flex gap-2 mb-6">
+                                    <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-bold uppercase tracking-wider">New Release</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-900 mb-3">Proposal Generator</h3>
+                                <p class="text-slate-500 leading-relaxed mb-6">An automated engine integrating Gemini & Netlify to generate full websites and proposals instantly from a simple prompt.</p>
+                            </div>
+                            <div class="flex gap-2 flex-wrap">
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-semibold">Gemini</span>
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-semibold">Netlify</span>
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-semibold">n8n</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-100 h-64 md:h-full overflow-hidden relative order-1 md:order-2">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" alt="Dashboard" class="project-image w-full h-full object-cover transition-transform duration-700">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group project-card bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300 cursor-pointer" onclick="window.open('https://vedaconcierge.com/', '_blank')">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop" alt="Hospitality" class="project-image w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-slate-900">Live Site ↗</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Veda Concierge</h3>
+                        <p class="text-slate-500 text-sm mb-6">AI hospitality assistant handling guest requests 24/7 via voice and text.</p>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs font-medium">Vapi.ai</span>
+                            <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs font-medium">OpenAI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group project-card bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300">
+                    <div class="h-64 overflow-hidden relative bg-slate-900 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?q=80&w=2071&auto=format&fit=crop" alt="Sync" class="project-image w-full h-full object-cover opacity-80 transition-transform duration-700">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Notion ↔ Asana Sync</h3>
+                        <p class="text-slate-500 text-sm mb-6">Bi-directional database synchronization architecture for enterprise project management.</p>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs font-medium">Notion API</span>
+                            <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs font-medium">Asana</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 group project-card bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300">
+                    <div class="grid md:grid-cols-2 h-full">
+                        <div class="bg-slate-100 h-64 md:h-full overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=2070&auto=format&fit=crop" alt="Voice AI" class="project-image w-full h-full object-cover transition-transform duration-700">
+                        </div>
+                        <div class="p-10 flex flex-col justify-center">
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3">Voice Qualification System</h3>
+                            <p class="text-slate-500 leading-relaxed mb-6">Autonomous sales agent that calls leads, qualifies them using natural language, and updates CRM scoring in real-time.</p>
+                            <div class="flex gap-2 flex-wrap">
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-semibold">Vapi.ai</span>
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-semibold">Claude 3.5</span>
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-semibold">Airtable</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section id="reviews" class="py-32 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 mb-20">
-            <div class="scroll-fade">
-                <span class="text-cyan-400 text-sm font-medium uppercase tracking-wider">Testimonials</span>
-                <h2 class="text-5xl md:text-7xl font-semibold mt-3 tracking-tight">Client Success Stories</h2>
-            </div>
+    <section id="reviews" class="py-24 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-6 mb-12">
+            <h2 class="text-4xl font-bold text-slate-900">What clients say</h2>
         </div>
         
-        <div class="relative">
-            <div class="overflow-hidden">
-                <div class="review-container flex gap-6 pl-6">
-                    <!-- Dr Aniket -->
-                    <div class="review-card glass rounded-3xl p-8 hover:bg-white/5 transition-all">
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="https://drive.google.com/uc?export=view&id=1h00yT9GsyZlXo7SP3uiTYGFfb94yzA1m" alt="Dr Aniket" class="w-16 h-16 rounded-full object-cover border-2 border-cyan-500/30">
-                            <div>
-                                <div class="font-semibold text-lg">Dr. Aniket</div>
-                                <div class="text-sm text-gray-400">IRI Dream Care</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-300 leading-relaxed text-base">
-                            "We use their AI assistant at our clinic, and it has made our daily work so much easier. Fast answers, fewer calls, and a smoother experience for everyone."
-                        </p>
-                    </div>
-
-                    <!-- Gagan -->
-                    <div class="review-card glass rounded-3xl p-8 hover:bg-white/5 transition-all">
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="https://drive.google.com/uc?export=view&id=1CN1ABCC6VRJEaCbr2JXAPJz0EYnmrWOJ" alt="Gagan" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500/30">
-                            <div>
-                                <div class="font-semibold text-lg">Gagan</div>
-                                <div class="text-sm text-gray-400">Ample Pubs</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-300 leading-relaxed text-base">
-                            "Before Veda Concierge, we were drowning in operational chaos. Now, the system centralized everything. It's the upgrade we didn't know we needed."
-                        </p>
-                    </div>
-
-                    <!-- Andrew -->
-                    <div class="review-card glass rounded-3xl p-8 hover:bg-white/5 transition-all">
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="https://drive.google.com/uc?export=view&id=1DeOubSXhRZUGGcrCzzkdpyngEgp2G3k3" alt="Andrew" class="w-16 h-16 rounded-full object-cover border-2 border-purple-500/30">
-                            <div>
-                                <div class="font-semibold text-lg">Andrew</div>
-                                <div class="text-sm text-gray-400">AdCrunch CEO</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-300 leading-relaxed text-base">
-                            "Krishna's AI agents helped us build the seamless system we always wanted. Everything feels smoother, and the output is great."
-                        </p>
-                    </div>
-
-                    <!-- Tracy -->
-                    <div class="review-card glass rounded-3xl p-8 hover:bg-white/5 transition-all">
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="https://drive.google.com/uc?export=view&id=1E2-DIQDrsrlT1M8Y0UECsUhWXXQQvEc2" alt="Tracy" class="w-16 h-16 rounded-full object-cover border-2 border-cyan-500/30">
-                            <div>
-                                <div class="font-semibold text-lg">Tracy</div>
-                                <div class="text-sm text-gray-400">Michael Curtis CTO</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-300 leading-relaxed text-base">
-                            "We're a data-driven company, and Krishna has transformed our raw sheets into clear, meaningful information that help us make informed decisions."
-                        </p>
-                    </div>
-
-                    <!-- Amisha -->
-                    <div class="review-card glass rounded-3xl p-8 hover:bg-white/5 transition-all">
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="https://drive.google.com/uc?export=view&id=1jcswGP7q1NZ2CJa3ubrrSy-S-4wL7dI0" alt="Amisha" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500/30">
-                            <div>
-                                <div class="font-semibold text-lg">Amisha</div>
-                                <div class="text-sm text-gray-400">Ahmedabad</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-300 leading-relaxed text-base">
-                            "Krishna's deep research and constant testing lead to better outcomes, delivering a chatbot experience that feels genuinely human."
-                        </p>
-                    </div>
-
-                    <!-- Duplicate set for seamless loop -->
-                    <div class="review-card glass rounded-3xl p-8 hover:bg-white/5 transition-all">
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="https://drive.google.com/uc?export=view&id=1h00yT9GsyZlXo7SP3uiTYGFfb94yzA1m" alt="Dr Aniket" class="w-16 h-16 rounded-full object-cover border-2 border-cyan-500/30">
-                            <div>
-                                <div class="font-semibold text-lg">Dr. Aniket</div>
-                                <div class="text-sm text-gray-400">IRI Dream Care</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-300 leading-relaxed text-base">
-                            "We use their AI assistant at our clinic, and it has made our daily work so much easier. Fast answers, fewer calls, and a smoother experience for everyone."
-                        </p>
-                    </div>
-
-                    <div class="review-card glass rounded-3xl p-8 hover:bg-white/5 transition-all">
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="https://drive.google.com/uc?export=view&id=1CN1ABCC6VRJEaCbr2JXAPJz0EYnmrWOJ" alt="Gagan" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500/30">
-                            <div>
-                                <div class="font-semibold text-lg">Gagan</div>
-                                <div class="text-sm text-gray-400">Ample Pubs</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-300 leading-relaxed text-base">
-                            "Before Veda Concierge, we were drowning in operational chaos. Now, the system centralized everything. It's the upgrade we didn't know we needed."
-                        </p>
-                    </div>
-
-                    <div class="review-card glass rounded-3xl p-8 hover:bg-white/5 transition-all">
-                        <div class="flex items-center gap-4 mb-6">
-                            <img src="https://drive.google.com/uc?export=view&id=1DeOubSXhRZUGGcrCzzkdpyngEgp2G3k3" alt="Andrew" class="w-16 h-16 rounded-full object-cover border-2 border-purple-500/30">
-                            <div>
-                                <div class="font-semibold text-lg">Andrew</div>
-                                <div class="text-sm text-gray-400">AdCrunch CEO</div>
-                            </div>
-                        </div>
-                        <p class="text-gray-300 leading-relaxed text-base">
-                            "Krishna's AI agents helped us build the seamless system we always wanted. Everything feels smoother, and the output is great."
-                        </p>
+        <div class="flex gap-6 overflow-x-auto px-6 pb-12 no-scrollbar snap-x">
+            <div class="min-w-[350px] md:min-w-[400px] bg-white p-8 rounded-2xl border border-slate-200 shadow-sm snap-center">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg">A</div>
+                    <div>
+                        <div class="font-bold text-slate-900">Dr. Aniket</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wide">IRI Dream Care</div>
                     </div>
                 </div>
+                <p class="text-slate-600 italic">"We use their AI assistant at our clinic, and it has made our daily work so much easier. Fast answers, fewer calls, and a smoother experience for everyone."</p>
             </div>
+
+            <div class="min-w-[350px] md:min-w-[400px] bg-white p-8 rounded-2xl border border-slate-200 shadow-sm snap-center">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-lg">G</div>
+                    <div>
+                        <div class="font-bold text-slate-900">Gagan</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wide">Ample Pubs</div>
+                    </div>
+                </div>
+                <p class="text-slate-600 italic">"Before Veda Concierge, we were drowning in operational chaos. Now, the system centralized everything. It's the upgrade we didn't know we needed."</p>
+            </div>
+
+            <div class="min-w-[350px] md:min-w-[400px] bg-white p-8 rounded-2xl border border-slate-200 shadow-sm snap-center">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-lg">A</div>
+                    <div>
+                        <div class="font-bold text-slate-900">Andrew</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wide">AdCrunch CEO</div>
+                    </div>
+                </div>
+                <p class="text-slate-600 italic">"Krishna's AI agents helped us build the seamless system we always wanted. Everything feels smoother, and the output is great."</p>
+            </div>
+
+            <div class="min-w-[350px] md:min-w-[400px] bg-white p-8 rounded-2xl border border-slate-200 shadow-sm snap-center">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 font-bold text-lg">T</div>
+                    <div>
+                        <div class="font-bold text-slate-900">Tracy</div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wide">Michael Curtis CTO</div>
+                    </div>
+                </div>
+                <p class="text-slate-600 italic">"We're a data-driven company, and Krishna has transformed our raw sheets into clear, meaningful information that help us make informed decisions."</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-32 px-6 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="text-4xl md:text-6xl font-bold mb-8 tracking-tight">"I don't just write code.<br><span class="text-blue-400">I engineer time.</span>"</h2>
+            <div class="space-y-6 text-xl text-slate-300 font-light leading-relaxed">
+                <p>Modern business is drowning in manual friction. My role is to diagnose inefficiencies and construct self-healing, self-improving neural systems to eliminate them.</p>
+                <p>Whether it's a hotel concierge handling 500 guests simultaneously, or a sales engine enriching 10k leads overnight—I build the invisible infrastructure that allows founders to scale without headcount.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-24 px-6 bg-white border-t border-slate-200">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl font-bold text-slate-900 mb-8">Ready to automate?</h2>
+            <p class="text-xl text-slate-500 mb-10">Stop trading time for money. Let's build a system that works while you sleep.</p>
             
-            <!-- Fade edges -->
-            <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent pointer-events-none"></div>
-            <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent pointer-events-none"></div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-32 px-6">
-        <div class="max-w-5xl mx-auto text-center scroll-fade">
-            <span class="text-cyan-400 text-sm font-medium uppercase tracking-wider">Philosophy</span>
-            <h2 class="text-4xl md:text-6xl font-semibold mt-6 mb-10 leading-tight tracking-tight">
-                "I don't just write code.<br>I engineer time."
-            </h2>
-            <p class="text-xl md:text-2xl text-gray-400 leading-relaxed mb-8 font-light">
-                Modern business is drowning in manual friction. My role is to diagnose inefficiencies and construct self-healing, self-improving neural systems to eliminate them.
-            </p>
-            <p class="text-xl md:text-2xl text-gray-400 leading-relaxed font-light">
-                Whether it's a hotel concierge handling 500 guests simultaneously, or a sales engine enriching 10k leads overnight—I build the invisible infrastructure that allows founders to scale without headcount.
-            </p>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-32 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="glass rounded-[3rem] p-16 md:p-24 text-center relative overflow-hidden scroll-fade">
-                <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-500/5"></div>
-                <div class="relative z-10">
-                    <h2 class="text-4xl md:text-6xl font-semibold mb-8 tracking-tight">
-                        Ready to Automate<br>Your Business?
-                    </h2>
-                    <p class="text-xl md:text-2xl text-gray-400 mb-12 font-light">
-                        Let's discuss how AI automation can transform your operations
-                    </p>
-                    <div class="flex gap-4 justify-center flex-wrap">
-                        <a href="mailto:krishnarana@automationexperts.tech" class="px-10 py-5 btn-primary rounded-full font-medium text-lg">
-                            Start a Project
-                        </a>
-                        <a href="https://www.linkedin.com/in/krishnaaarana/" target="_blank" class="px-10 py-5 glass rounded-full font-medium hover:bg-white/5 transition-all text-lg">
-                            View LinkedIn
-                        </a>
-                    </div>
-                </div>
+            <div class="flex gap-4 justify-center mb-16">
+                <a href="mailto:krishnarana@automationexperts.tech" class="px-8 py-4 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/30">
+                    Start a Project
+                </a>
+                <a href="https://vedaconcierge.com/" target="_blank" class="px-8 py-4 bg-slate-100 text-slate-700 rounded-full font-medium hover:bg-slate-200 transition-all">
+                    Visit Veda
+                </a>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="py-16 px-6 border-t border-white/5">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="text-2xl font-semibold">KRISHNA RANA</div>
-                <div class="flex gap-8 text-sm text-gray-400">
-                    <a href="https://www.linkedin.com/in/krishnaaarana/" target="_blank" class="hover:text-cyan-400 transition-colors">LinkedIn</a>
-                    <a href="https://vedaconcierge.com/" target="_blank" class="hover:text-cyan-400 transition-colors">Veda Concierge</a>
-                    <a href="mailto:krishnarana@automationexperts.tech" class="hover:text-cyan-400 transition-colors">Email</a>
+            <div class="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400">
+                <div>© 2025 Krishna Rana. All rights reserved.</div>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-blue-600">LinkedIn</a>
+                    <a href="#" class="hover:text-blue-600">Twitter</a>
+                    <a href="#" class="hover:text-blue-600">Email</a>
                 </div>
-            </div>
-            <div class="text-center mt-12 text-sm text-gray-600">
-                © 2025 Krishna Rana | Automation Architect v2.0
             </div>
         </div>
     </footer>
 
     <script>
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Scroll fade animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
+        // Smooth Reveal on Scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.scroll-fade').forEach((el) => {
+        // Apply fade-in class to sections
+        document.querySelectorAll('section > div').forEach((el) => {
+            el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
             observer.observe(el);
         });
     </script>
-
 </body>
 </html>
