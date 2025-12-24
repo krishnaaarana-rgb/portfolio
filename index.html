@@ -63,7 +63,6 @@
 
         /* TYPOGRAPHY UTILS */
         .text-balance { text-wrap: balance; }
-        .clip-text-image { background-clip: text; -webkit-background-clip: text; color: transparent; background-image: linear-gradient(to right, #000, #444); }
         
         /* CANVAS BACKGROUND */
         #neural-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.4; }
@@ -72,27 +71,17 @@
         .magnetic-btn { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
     </style>
 </head>
-<body>
+<body class="opacity-0 transition-opacity duration-1000" onload="document.body.classList.remove('opacity-0')">
 
     <div id="cursor"></div>
     <div class="noise"></div>
     <canvas id="neural-canvas"></canvas>
 
-    <div id="preloader" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center">
-        <div class="flex items-center gap-2 mb-4">
-            <div class="w-2 h-2 bg-black animate-pulse"></div>
-            <span class="font-mono text-xs uppercase tracking-widest text-gray-500">Initializing Neural OS</span>
-        </div>
-        <div class="w-64 h-[1px] bg-gray-200 relative overflow-hidden">
-            <div id="loader-bar" class="absolute top-0 left-0 h-full bg-black w-0"></div>
-        </div>
-    </div>
-
     <nav class="fixed top-0 w-full z-50 px-6 py-6 mix-blend-difference text-white flex justify-between items-center">
         <a href="#" class="magnetic-btn font-mono text-sm tracking-widest hover:text-gray-300">KRISHNA RANA_</a>
         <div class="flex gap-8 font-mono text-xs uppercase tracking-widest">
             <a href="#work" class="magnetic-btn hover:opacity-50 transition-opacity">Projects</a>
-            <a href="#about" class="magnetic-btn hover:opacity-50 transition-opacity">Philosophy</a>
+            <a href="#reviews" class="magnetic-btn hover:opacity-50 transition-opacity">ROI</a>
             <a href="mailto:krishnarana@automationexperts.tech" class="magnetic-btn hover:opacity-50 transition-opacity">Contact</a>
         </div>
     </nav>
@@ -243,26 +232,7 @@
                 </div>
             </section>
 
-            <section id="about" class="py-32 px-6 md:px-24 bg-black text-white relative overflow-hidden">
-                <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-                
-                <div class="max-w-4xl relative z-10">
-                    <span class="font-mono text-xs text-gray-500 mb-8 block">02 / THE ARCHITECT</span>
-                    <h2 class="font-serif text-5xl md:text-6xl leading-tight mb-12">
-                        "I don't just write code. I engineer time."
-                    </h2>
-                    <div class="grid md:grid-cols-2 gap-12 text-gray-400 font-light text-lg">
-                        <p>
-                            Modern business is drowning in manual friction. My role is to diagnose these inefficiencies and construct self-healing, self-improving neural systems to eliminate them.
-                        </p>
-                        <p>
-                            Whether it's a hotel concierge handling 500 guests simultaneously, or a sales engine enriching 10k leads overnight—I build the invisible infrastructure that allows founders to scale without headcount.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="py-32 px-6 md:px-24 bg-white border-t border-gray-100 overflow-hidden">
+            <section id="reviews" class="py-32 px-6 md:px-24 bg-white border-t border-gray-100 overflow-hidden">
                 <div class="mb-16 reveal-text">
                     <span class="font-mono text-xs uppercase tracking-widest text-gray-400 mb-2 block">02 / Client ROI</span>
                     <h2 class="font-serif text-5xl md:text-6xl">The Verdict</h2>
@@ -338,6 +308,25 @@
                 </div>
             </section>
 
+            <section id="about" class="py-32 px-6 md:px-24 bg-black text-white relative overflow-hidden">
+                <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+                
+                <div class="max-w-4xl relative z-10">
+                    <span class="font-mono text-xs text-gray-500 mb-8 block">03 / THE ARCHITECT</span>
+                    <h2 class="font-serif text-5xl md:text-6xl leading-tight mb-12">
+                        "I don't just write code. I engineer time."
+                    </h2>
+                    <div class="grid md:grid-cols-2 gap-12 text-gray-400 font-light text-lg">
+                        <p>
+                            Modern business is drowning in manual friction. My role is to diagnose these inefficiencies and construct self-healing, self-improving neural systems to eliminate them.
+                        </p>
+                        <p>
+                            Whether it's a hotel concierge handling 500 guests simultaneously, or a sales engine enriching 10k leads overnight—I build the invisible infrastructure that allows founders to scale without headcount.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
             <footer class="py-32 px-6 md:px-24 bg-white border-t border-gray-100">
                 <div class="flex flex-col md:flex-row justify-between items-start">
                     <div>
@@ -372,7 +361,7 @@
         });
         
         // Hover effects for cursor
-        const hoverables = document.querySelectorAll('a, button, .project-card');
+        const hoverables = document.querySelectorAll('a, button, .project-card, .review-card');
         hoverables.forEach(el => {
             el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
             el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
@@ -399,11 +388,8 @@
         // 4. GSAP ANIMATIONS
         gsap.registerPlugin(ScrollTrigger);
 
-        // Preloader Animation
-        const tl = gsap.timeline();
-        tl.to("#loader-bar", { width: "100%", duration: 1.5, ease: "power2.inOut" })
-          .to("#preloader", { y: "-100%", duration: 1, ease: "power4.inOut" })
-          .to(".reveal-text", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" }, "-=0.5");
+        // IMMEDIATE ENTRY ANIMATION (Replaces Preloader)
+        gsap.to(".reveal-text", { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power3.out", delay: 0.2 });
 
         // Marquee Animation
         gsap.to("#marquee", {
@@ -432,7 +418,9 @@
                 duration: 1,
                 ease: "power3.out"
             });
-            // Reviews Stagger Animation
+        });
+
+        // Reviews Stagger Animation
         gsap.from(".review-card", {
             scrollTrigger: {
                 trigger: ".review-card",
@@ -441,12 +429,9 @@
             y: 30,
             opacity: 0,
             duration: 0.8,
-            stagger: 0.1, // This creates the "waterfall" effect
+            stagger: 0.1,
             ease: "power2.out"
         });
-        });
-
-        
 
         // 5. CANVAS BACKGROUND (Subtle Neural Mesh)
         const canvas = document.getElementById('neural-canvas');
