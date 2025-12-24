@@ -2,749 +2,902 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRISHNA RANA | SYSTEMS ARCHITECT [v2.0]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Krishna Rana | Systems Architect. Replacing operational friction with autonomous code.">
+    <title>Krishna Rana | Systems Architect</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
-    
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
 
     <style>
+        /* -----------------------------------------------------------------
+           1. CORE VARIABLES & RESET
+           ----------------------------------------------------------------- */
         :root {
-            --bg: #030303;
-            --surface: #0a0a0a;
-            --surface-light: #141414;
-            --text-main: #e2e2e2;
-            --text-dim: #888888;
-            --accent: #3b82f6; /* Blue */
-            --accent-glow: rgba(59, 130, 246, 0.5);
-            --success: #10b981;
-            --font-main: 'Manrope', sans-serif;
-            --font-display: 'Space Grotesk', sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
+            --bg-body: #FFFFFF;
+            --bg-alt: #F8FAFC;
+            --bg-dark: #0F172A;
+            
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-tertiary: #94A3B8;
+            
+            --accent-blue: #2563EB;
+            --accent-dark: #1E293B;
+            --accent-green: #059669;
+            
+            --max-width: 1280px;
+            --radius-md: 12px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: var(--font-main);
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
-            cursor: none; /* Custom Cursor */
-        }
-        
-        ::selection { background: var(--accent); color: white; }
-        
-        /* --- CUSTOM CURSOR --- */
-        #cursor {
-            position: fixed;
-            top: 0; left: 0;
-            width: 20px; height: 20px;
-            border: 1px solid var(--text-main);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-            transition: width 0.3s, height 0.3s, background-color 0.3s;
-        }
-        #cursor-dot {
-            position: fixed;
-            top: 0; left: 0;
-            width: 4px; height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-        }
-        body.hovering #cursor { width: 50px; height: 50px; background-color: rgba(255,255,255,0.1); border-color: transparent; }
-
-        /* --- TYPOGRAPHY UTILS --- */
-        .font-display { font-family: var(--font-display); }
-        .font-code { font-family: var(--font-code); }
-        .text-gradient {
-            background: linear-gradient(to right, #ffffff, #888888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- VISUAL FX --- */
-        .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.05; pointer-events: none; z-index: 50;
+        /* -----------------------------------------------------------------
+           2. TYPOGRAPHY & UTILITIES
+           ----------------------------------------------------------------- */
+        h1, h2, h3, h4, h5 { 
+            font-family: 'Space Grotesk', sans-serif; 
+            color: var(--text-primary); 
+            line-height: 1.1; 
+            letter-spacing: -0.03em;
         }
+
+        h1 { font-size: 4.5rem; font-weight: 700; margin-bottom: 1.5rem; }
+        h2 { font-size: 3rem; font-weight: 600; margin-bottom: 1rem; }
+        h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+        .lead {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            font-weight: 400;
+        }
+
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+        .text-center { text-align: center; }
+        .section-padding { padding: 120px 0; }
         
-        .glass-panel {
-            background: rgba(20, 20, 20, 0.6);
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            background: #EFF6FF;
+            color: var(--accent-blue);
+            border: 1px solid #DBEAFE;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 24px;
+        }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--text-primary);
+            color: white;
+            border: 1px solid var(--text-primary);
+        }
+        .btn-primary:hover {
+            background: #334155;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 1px solid #E2E8F0;
+        }
+        .btn-secondary:hover {
+            background: #F8FAFC;
+            border-color: #CBD5E1;
+        }
+
+        /* -----------------------------------------------------------------
+           3. NAVIGATION
+           ----------------------------------------------------------------- */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
-
-        /* --- PRELOADER --- */
-        #preloader {
-            position: fixed; inset: 0; background: #000; z-index: 10000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .loader-bar { width: 300px; height: 2px; background: #333; margin-top: 20px; position: relative; overflow: hidden; }
-        .loader-progress { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); width: 0%; }
-
-        /* --- GRID BACKGROUND --- */
-        #canvas-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.4;
-        }
-
-        /* --- UTILITIES --- */
-        .reveal-text { overflow: hidden; }
-        .reveal-text span { display: inline-block; transform: translateY(100%); }
+        .nav-inner { height: 80px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; tracking: -0.02em; display: flex; align-items: center; gap: 8px; }
+        .logo-dot { width: 8px; height: 8px; background: var(--accent-blue); border-radius: 50%; }
         
-        .magnetic-btn { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .nav-menu { display: flex; gap: 32px; align-items: center; }
+        .nav-link { font-size: 0.9rem; color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        .nav-link:hover { color: var(--text-primary); }
 
-        /* --- CHART BARS --- */
-        .chart-bar { transition: height 1s cubic-bezier(0.22, 1, 0.36, 1); }
+        /* -----------------------------------------------------------------
+           4. HERO SECTION
+           ----------------------------------------------------------------- */
+        .hero {
+            padding-top: 180px;
+            padding-bottom: 100px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+            border-bottom: 1px solid #E2E8F0;
+            overflow: hidden;
+        }
+        .hero-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center; }
+        
+        /* Dashboard Visual (CSS Only) */
+        .dashboard-visual {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid #E2E8F0;
+            padding: 24px;
+            position: relative;
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+            transition: transform 0.5s var(--ease-out);
+        }
+        .dashboard-visual:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
+        
+        .dash-header { display: flex; justify-content: space-between; margin-bottom: 24px; border-bottom: 1px solid #F1F5F9; padding-bottom: 16px; }
+        .dash-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .dash-card { background: #F8FAFC; padding: 16px; border-radius: var(--radius-md); }
+        .dash-label { font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .dash-val { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); font-family: 'Space Grotesk'; }
+        .dash-green { color: var(--accent-green); font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+        
+        .code-block {
+            background: #1E293B;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #E2E8F0;
+            margin-top: 16px;
+        }
+        .code-line { display: block; margin-bottom: 4px; }
+        .cl-blue { color: #60A5FA; }
+        .cl-green { color: #4ADE80; }
+
+        /* -----------------------------------------------------------------
+           5. PHILOSOPHY & STATS
+           ----------------------------------------------------------------- */
+        .philosophy { background: #FFFFFF; padding: 100px 0; border-bottom: 1px solid #F1F5F9; }
+        .phil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        
+        .quote-box {
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 32px;
+        }
+        .quote-text { font-size: 1.5rem; font-weight: 500; color: var(--text-primary); margin-bottom: 24px; }
+        .quote-author { font-size: 0.9rem; color: var(--text-secondary); font-weight: 600; }
+
+        .stats-section { background: var(--bg-dark); color: white; padding: 100px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); }
+        .stat-item { background: var(--bg-dark); padding: 40px; text-align: center; }
+        .stat-num { font-size: 3.5rem; font-weight: 700; color: white; margin-bottom: 8px; font-family: 'Space Grotesk'; }
+        .stat-desc { font-size: 0.9rem; color: #94A3B8; }
+
+        /* -----------------------------------------------------------------
+           6. CALCULATOR (ROI)
+           ----------------------------------------------------------------- */
+        .calc-section { padding: 120px 0; background: #F8FAFC; }
+        .calc-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .slider-group { margin-bottom: 32px; }
+        .slider-label { display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: 600; font-size: 0.9rem; }
+        .slider-val { color: var(--accent-blue); }
+        
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--accent-blue); cursor: pointer; margin-top: -10px; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; cursor: pointer; background: #E2E8F0; border-radius: 2px;
+        }
+
+        .calc-result-box {
+            text-align: center;
+            background: var(--bg-dark);
+            color: white;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .calc-big-num { font-size: 4.5rem; font-weight: 700; color: #4ADE80; line-height: 1; letter-spacing: -2px; font-family: 'Space Grotesk'; }
+        .calc-sub { font-size: 0.9rem; color: #94A3B8; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* -----------------------------------------------------------------
+           7. BENTO GRID (FEATURES)
+           ----------------------------------------------------------------- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 350px);
+            gap: 24px;
+            margin-top: 60px;
+        }
+        .bento-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+        }
+        .bento-card:hover { transform: translateY(-4px); border-color: #CBD5E1; }
+        .bento-wide { grid-column: span 2; background: white; }
+        .bento-tall { grid-row: span 2; background: var(--bg-dark); color: white; }
+        .bento-tall h3, .bento-tall p { color: white; }
+        .bento-tall p { opacity: 0.7; }
+        
+        .bento-icon { width: 48px; height: 48px; background: white; border: 1px solid #E2E8F0; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+        .bento-tall .bento-icon { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.1); color: white; }
+
+        /* -----------------------------------------------------------------
+           8. TIMELINE (PROTOCOL)
+           ----------------------------------------------------------------- */
+        .timeline { max-width: 800px; margin: 80px auto 0; position: relative; padding-left: 40px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: #E2E8F0;
+        }
+        .timeline-item { margin-bottom: 60px; position: relative; }
+        .timeline-dot {
+            position: absolute; left: -49px; top: 0;
+            width: 20px; height: 20px;
+            background: white; border: 4px solid var(--accent-blue);
+            border-radius: 50%;
+        }
+        .timeline-content {
+            background: white; border: 1px solid #E2E8F0; padding: 32px; border-radius: var(--radius-md);
+        }
+        
+        /* -----------------------------------------------------------------
+           9. TESTIMONIALS
+           ----------------------------------------------------------------- */
+        .testimonials { background: #FFFFFF; padding: 120px 0; overflow: hidden; }
+        .marquee-wrapper {
+            display: flex;
+            gap: 24px;
+            width: max-content;
+            animation: scroll 40s linear infinite;
+        }
+        .marquee-wrapper:hover { animation-play-state: paused; }
+        
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
+        .test-card {
+            width: 350px;
+            background: #F8FAFC;
+            padding: 32px;
+            border-radius: var(--radius-md);
+            border: 1px solid #F1F5F9;
+        }
+        .test-text { font-size: 0.95rem; font-style: italic; color: var(--text-secondary); margin-bottom: 20px; }
+        .test-author { display: flex; align-items: center; gap: 12px; }
+        .test-avatar { width: 40px; height: 40px; background: #CBD5E1; border-radius: 50%; }
+
+        /* -----------------------------------------------------------------
+           10. PRICING & FAQ
+           ----------------------------------------------------------------- */
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 900px; margin: 60px auto 0; }
+        .price-card {
+            padding: 48px;
+            border-radius: var(--radius-lg);
+            border: 1px solid #E2E8F0;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        .price-card.featured {
+            background: var(--bg-dark);
+            color: white;
+            border: 1px solid var(--bg-dark);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-xl);
+        }
+        .price-card.featured h3, .price-card.featured .price-amount { color: white; }
+        .price-card.featured .price-sub { color: #94A3B8; }
+        .price-card.featured li { color: #CBD5E1; }
+        
+        .price-amount { font-size: 3rem; font-weight: 700; font-family: 'Space Grotesk'; color: var(--text-primary); }
+        .price-sub { color: var(--text-secondary); margin-bottom: 32px; display: block; }
+        
+        .faq-item { border-bottom: 1px solid #E2E8F0; }
+        .faq-question {
+            padding: 24px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+        .faq-question::-webkit-details-marker { display: none; }
+        .faq-answer { padding-bottom: 24px; color: var(--text-secondary); }
+
+        /* -----------------------------------------------------------------
+           11. FOOTER
+           ----------------------------------------------------------------- */
+        footer { background: white; padding: 80px 0 40px; border-top: 1px solid #E2E8F0; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+        .footer-links li { list-style: none; margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+        .footer-links a:hover { color: var(--accent-blue); }
+
+        /* -----------------------------------------------------------------
+           RESPONSIVE
+           ----------------------------------------------------------------- */
+        @media (max-width: 1024px) {
+            h1 { font-size: 3rem; }
+            .hero-layout { grid-template-columns: 1fr; gap: 40px; }
+            .dashboard-visual { display: none; } /* Hide on tablet/mobile for cleaner look */
+            .phil-grid, .calc-wrapper, .bento-grid, .pricing-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .bento-wide, .bento-tall { grid-column: auto; grid-row: auto; }
+            .pricing-grid { gap: 24px; }
+            .price-card.featured { transform: scale(1); }
+            .nav-menu { display: none; } /* Use simple mobile menu logic if needed */
+        }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div id="cursor"></div>
-    <div id="cursor-dot"></div>
-
-    <div class="noise-overlay"></div>
-
-    <div id="canvas-container">
-        <canvas id="neuro"></canvas>
-    </div>
-
-    <div id="preloader">
-        <div class="font-code text-xs text-green-500 mb-2">
-            <span id="loader-text">> INITIALIZING SYSTEM_CORE...</span>
-        </div>
-        <div class="loader-bar">
-            <div class="loader-progress"></div>
-        </div>
-        <div class="absolute bottom-10 font-code text-[10px] text-zinc-600">
-            SECURE_CONNECTION_ESTABLISHED // V 2.0.4
-        </div>
-    </div>
-
-    <nav class="fixed top-0 w-full z-40 px-6 py-6 mix-blend-difference text-white">
-        <div class="flex justify-between items-center max-w-[1400px] mx-auto">
-            <div class="font-code font-bold tracking-tighter text-sm flex items-center gap-2">
-                <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                KRISHNA_RANA<span class="opacity-50">.SYS</span>
-            </div>
-            
-            <div class="hidden md:flex gap-12 font-code text-[11px] tracking-widest uppercase">
-                <a href="#protocol" class="hover:text-blue-400 transition-colors link-hover" data-cursor="hover">Protocol</a>
-                <a href="#calculator" class="hover:text-blue-400 transition-colors link-hover" data-cursor="hover">Simulation</a>
-                <a href="#work" class="hover:text-blue-400 transition-colors link-hover" data-cursor="hover">Blueprints</a>
-            </div>
-
-            <a href="mailto:krishnarana@automationexperts.tech" class="magnetic-btn group relative px-6 py-3 overflow-hidden border border-white/20 rounded-full" data-cursor="hover">
-                <div class="absolute inset-0 w-full h-full bg-white transition-all duration-300 transform translate-y-full group-hover:translate-y-0 mix-blend-difference"></div>
-                <span class="relative font-code text-xs font-bold group-hover:text-black transition-colors">INIT_PROJECT</span>
+    <nav id="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="logo">
+                <div class="logo-dot"></div>
+                KRISHNA RANA | ARCHITECT
             </a>
+            <div class="nav-menu">
+                <a href="#philosophy" class="nav-link">Philosophy</a>
+                <a href="#process" class="nav-link">The Protocol</a>
+                <a href="#results" class="nav-link">Results</a>
+                <a href="#pricing" class="nav-link">Engagement</a>
+                <a href="#contact" class="btn btn-primary">Start Audit</a>
+            </div>
         </div>
     </nav>
 
-    <section class="min-h-screen flex items-center justify-center relative px-6 pt-20">
-        <div class="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div class="lg:col-span-8 space-y-8 z-10">
-                <div class="overflow-hidden">
-                    <div class="hero-tag font-code text-xs text-blue-500 tracking-widest mb-4 border border-blue-500/30 inline-block px-3 py-1 rounded-full bg-blue-500/10 backdrop-blur-sm">
-                        ● AVAILABLE FOR RETAINER
+    <section class="hero">
+        <div class="container">
+            <div class="hero-layout">
+                <div class="reveal active">
+                    <div class="badge">Available for Retainer</div>
+                    <h1>Scale Without <br><span style="color: var(--text-secondary);">Adding Humans.</span></h1>
+                    <p class="lead" style="margin-bottom: 32px;">
+                        I architect self-healing automation ecosystems. Replace operational friction with pure code. Your business, running on autopilot.
+                    </p>
+                    <div style="display: flex; gap: 16px;">
+                        <a href="#calculator" class="btn btn-primary">Calculate ROI</a>
+                        <a href="#process" class="btn btn-secondary">View Blueprints</a>
                     </div>
                 </div>
-                
-                <h1 class="text-[12vw] lg:text-[7rem] leading-[0.85] font-display font-bold tracking-tighter text-white mix-blend-difference">
-                    <div class="reveal-text"><span>SCALE</span></div>
-                    <div class="reveal-text"><span>WITHOUT</span></div>
-                    <div class="reveal-text"><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">HUMANS.</span></div>
-                </h1>
 
-                <p class="hero-desc text-zinc-400 max-w-xl text-lg lg:text-xl font-light leading-relaxed border-l-2 border-blue-500 pl-6">
-                    I architect self-healing automation ecosystems. Replace friction with code. Your operations, running on autopilot.
-                </p>
-
-                <div class="hero-btns flex flex-wrap gap-4 pt-6">
-                    <a href="#calculator" class="group relative px-8 py-4 bg-white text-black font-code text-sm font-bold rounded-sm overflow-hidden" data-cursor="hover">
-                        <div class="absolute inset-0 bg-blue-600 transform translate-y-full transition-transform duration-300 group-hover:translate-y-0"></div>
-                        <span class="relative group-hover:text-white transition-colors flex items-center gap-2">
-                             CALCULATE_ROI <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </span>
-                    </a>
-                    <a href="#work" class="px-8 py-4 border border-white/20 text-white font-code text-sm font-bold rounded-sm hover:bg-white/5 transition-colors" data-cursor="hover">
-                        VIEW_SYSTEMS
-                    </a>
-                </div>
-            </div>
-
-            <div class="hidden lg:flex lg:col-span-4 flex-col justify-end pb-12">
-                <div class="glass-panel p-6 rounded-lg space-y-6">
-                    <div class="flex justify-between items-center border-b border-white/10 pb-4">
-                        <span class="font-code text-xs text-zinc-500">SYSTEM_METRICS</span>
-                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <div class="dashboard-visual reveal active" style="transition-delay: 0.2s;">
+                    <div class="dash-header">
+                        <span style="font-weight: 700; font-size: 0.9rem;">System Status: <span style="color:var(--accent-green)">Active</span></span>
+                        <i data-lucide="activity" style="width: 16px; color: var(--text-tertiary);"></i>
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <div class="text-2xl font-display font-bold">99.9%</div>
-                            <div class="font-code text-[10px] text-zinc-500">UPTIME</div>
+                    <div class="dash-stat-grid">
+                        <div class="dash-card">
+                            <div class="dash-label">Monthly Savings</div>
+                            <div class="dash-val">$12,450</div>
+                            <div class="dash-green"><i data-lucide="arrow-up" width="12"></i> 14%</div>
                         </div>
-                        <div>
-                            <div class="text-2xl font-display font-bold">~400ms</div>
-                            <div class="font-code text-[10px] text-zinc-500">LATENCY</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-display font-bold">$2.4M</div>
-                            <div class="font-code text-[10px] text-zinc-500">CLIENT_REVENUE</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-display font-bold">54</div>
-                            <div class="font-code text-[10px] text-zinc-500">ACTIVE_AGENTS</div>
+                        <div class="dash-card">
+                            <div class="dash-label">Human Hrs Saved</div>
+                            <div class="dash-val">142 hrs</div>
+                            <div class="dash-green"><i data-lucide="clock" width="12"></i> This Week</div>
                         </div>
                     </div>
-                    <div class="font-code text-[9px] text-zinc-600 pt-2">
-                        > last_update: just now<br>
-                        > status: operational
+                    <div style="font-size: 0.8rem; font-weight: 600; margin-bottom: 8px;">Live Agent Logs</div>
+                    <div class="code-block">
+                        <span class="code-line">> [SYSTEM] Auditing CRM workflows...</span>
+                        <span class="code-line cl-blue">> [AGENT] Lead_Qualifier initialized.</span>
+                        <span class="code-line">> [ACTION] Voice call scheduled.</span>
+                        <span class="code-line cl-green">> [SUCCESS] Deal closed. Webhook fired.</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="py-4 border-y border-white/10 bg-black overflow-hidden relative z-20">
-        <div class="marquee-wrapper flex gap-12 whitespace-nowrap font-code text-xs text-zinc-500 uppercase tracking-widest">
-            <span>/// System Architecture</span>
-            <span>/// Workflow Automation</span>
-            <span>/// LLM Integration</span>
-            <span>/// Vector Databases</span>
-            <span>/// Voice Agents</span>
-            <span>/// Revenue Ops</span>
-            <span>/// System Architecture</span>
-            <span>/// Workflow Automation</span>
-            <span>/// LLM Integration</span>
-            <span>/// Vector Databases</span>
-            <span>/// Voice Agents</span>
-            <span>/// Revenue Ops</span>
-            <span>/// System Architecture</span>
-            <span>/// Workflow Automation</span>
-            <span>/// LLM Integration</span>
-            <span>/// Vector Databases</span>
-            <span>/// Voice Agents</span>
-            <span>/// Revenue Ops</span>
-        </div>
-    </div>
-
-    <section id="protocol" class="py-32 px-6 relative">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="mb-20">
-                <span class="font-code text-blue-500 text-xs tracking-widest mb-2 block">01 // METHODOLOGY</span>
-                <h2 class="text-5xl md:text-7xl font-display font-bold text-white">THE PROTOCOL</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="protocol-card group p-8 border-t border-white/20 hover:border-blue-500 hover:bg-white/5 transition-all duration-500 relative cursor-pointer">
-                    <span class="font-display text-6xl text-zinc-800 group-hover:text-blue-500/20 transition-colors absolute top-4 right-4 font-bold">01</span>
-                    <div class="h-32 flex items-end mb-6">
-                        <i data-lucide="scan-line" class="w-10 h-10 text-white group-hover:text-blue-500 transition-colors"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Audit & Deconstruct</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">
-                        I tear down your manual processes. We identify bottlenecks using data, not intuition. No code is written until the math works.
+    <section class="philosophy" id="philosophy">
+        <div class="container">
+            <div class="phil-grid">
+                <div class="reveal">
+                    <h2>The "Black Box" Problem</h2>
+                    <p class="lead" style="font-size: 1.1rem; margin-bottom: 24px;">
+                        Most agencies sell you "AI" but give you a glorified chatbot. I build <strong>Systems</strong>.
                     </p>
-                </div>
-
-                <div class="protocol-card group p-8 border-t border-white/20 hover:border-blue-500 hover:bg-white/5 transition-all duration-500 relative cursor-pointer">
-                    <span class="font-display text-6xl text-zinc-800 group-hover:text-blue-500/20 transition-colors absolute top-4 right-4 font-bold">02</span>
-                    <div class="h-32 flex items-end mb-6">
-                        <i data-lucide="network" class="w-10 h-10 text-white group-hover:text-blue-500 transition-colors"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Neural Architecture</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">
-                        Designing the brain. Selecting the right LLM models, vector stores, and API webhooks to create a self-sustaining loop.
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">
+                        Automation isn't about buying a Zapier subscription. It's about fundamental architectural change. I deconstruct your manual processes—sales, onboarding, support—and rebuild them using LLMs, Vector Databases, and Python scripts that never sleep, never ask for a raise, and never make mistakes.
                     </p>
+                    <ul style="list-style: none; color: var(--text-primary); font-weight: 500;">
+                        <li style="margin-bottom: 12px; display: flex; gap: 10px;"><i data-lucide="check-circle" width="20" color="var(--accent-blue)"></i> No Hallucinations (RAG Guardrails)</li>
+                        <li style="margin-bottom: 12px; display: flex; gap: 10px;"><i data-lucide="check-circle" width="20" color="var(--accent-blue)"></i> Enterprise-Grade Security</li>
+                        <li style="display: flex; gap: 10px;"><i data-lucide="check-circle" width="20" color="var(--accent-blue)"></i> Full Documentation Handoff</li>
+                    </ul>
                 </div>
-
-                <div class="protocol-card group p-8 border-t border-white/20 hover:border-blue-500 hover:bg-white/5 transition-all duration-500 relative cursor-pointer">
-                    <span class="font-display text-6xl text-zinc-800 group-hover:text-blue-500/20 transition-colors absolute top-4 right-4 font-bold">03</span>
-                    <div class="h-32 flex items-end mb-6">
-                        <i data-lucide="cpu" class="w-10 h-10 text-white group-hover:text-blue-500 transition-colors"></i>
+                <div class="quote-box reveal" style="transition-delay: 0.2s;">
+                    <div class="quote-text">
+                        "Krishna didn't just automate our email; he built a system that understands our customers better than our sales team did."
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Deploy & Inject</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">
-                        Live implementation. We replace human tasks one by one with autonomous agents, monitoring for hallucinations and latency.
-                    </p>
-                </div>
-
-                <div class="protocol-card group p-8 border-t border-white/20 hover:border-blue-500 hover:bg-white/5 transition-all duration-500 relative cursor-pointer">
-                    <span class="font-display text-6xl text-zinc-800 group-hover:text-blue-500/20 transition-colors absolute top-4 right-4 font-bold">04</span>
-                    <div class="h-32 flex items-end mb-6">
-                        <i data-lucide="infinity" class="w-10 h-10 text-white group-hover:text-blue-500 transition-colors"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Scale & Handover</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">
-                        Optimization for volume. I hand over the "keys" to the system with full documentation. You own the code.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="calculator" class="py-32 px-6 bg-[#050505] border-y border-white/5 relative overflow-hidden">
-        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-        
-        <div class="max-w-[1200px] mx-auto relative z-10">
-            <div class="text-center mb-16">
-                <span class="font-code text-green-500 text-xs tracking-widest mb-2 block animate-pulse">● LIVE SIMULATION</span>
-                <h2 class="text-4xl md:text-5xl font-display font-bold text-white">CALCULATE YOUR DELTA</h2>
-                <p class="text-zinc-500 mt-4 max-w-lg mx-auto">Input your current manual inefficiencies. The system will project your annual capital reclamation.</p>
-            </div>
-
-            <div class="grid lg:grid-cols-12 gap-12 bg-[#0a0a0a] border border-white/10 p-2 rounded-xl shadow-2xl">
-                
-                <div class="lg:col-span-4 bg-[#111] p-8 rounded-lg space-y-10 border border-white/5">
-                    <div>
-                        <div class="flex justify-between mb-4">
-                            <label class="text-xs font-bold uppercase tracking-wider text-zinc-400 font-code">Hours Wasted / Week</label>
-                            <span class="font-code font-bold text-blue-500"><span id="hoursVal">40</span> hrs</span>
-                        </div>
-                        <input type="range" min="0" max="100" value="40" class="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500" id="hoursInput" oninput="updateSim()">
-                    </div>
-                    
-                    <div>
-                        <div class="flex justify-between mb-4">
-                            <label class="text-xs font-bold uppercase tracking-wider text-zinc-400 font-code">Hourly Rate ($)</label>
-                            <span class="font-code font-bold text-blue-500">$<span id="rateVal">50</span>/hr</span>
-                        </div>
-                        <input type="range" min="20" max="200" value="50" class="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500" id="rateInput" oninput="updateSim()">
-                    </div>
-                    
-                    <div>
-                        <div class="flex justify-between mb-4">
-                            <label class="text-xs font-bold uppercase tracking-wider text-zinc-400 font-code">Team Size</label>
-                            <span class="font-code font-bold text-blue-500"><span id="teamVal">1</span> emp</span>
-                        </div>
-                        <input type="range" min="1" max="20" value="1" class="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500" id="teamInput" oninput="updateSim()">
-                    </div>
-
-                    <div class="pt-6 border-t border-white/10">
-                        <div class="font-code text-[10px] text-zinc-600 mb-2">PROJECTION ALGORITHM: LINEAR</div>
-                        <div class="font-code text-[10px] text-green-500">EFFICIENCY_MULTIPLIER: 1.0x</div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-8 bg-black relative rounded-lg p-8 flex flex-col justify-between border border-white/5">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <div class="font-code text-xs text-zinc-500 mb-1">PROJECTED ANNUAL SAVINGS</div>
-                            <div class="font-display text-6xl text-white font-bold tracking-tighter" id="totalSavings">$104,000</div>
-                        </div>
-                        <div class="text-right">
-                             <div class="font-code text-xs text-zinc-500 mb-1">ROI RATING</div>
-                             <div class="inline-block px-2 py-1 bg-green-900/30 border border-green-500/30 text-green-400 text-xs font-bold font-code rounded" id="ratingBadge">A+</div>
-                        </div>
-                    </div>
-
-                    <div class="flex items-end gap-4 h-64 mt-12 w-full border-b border-white/10 pb-2 relative">
-                        <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
-                            <div class="w-full h-[1px] bg-white"></div>
-                            <div class="w-full h-[1px] bg-white"></div>
-                            <div class="w-full h-[1px] bg-white"></div>
-                            <div class="w-full h-[1px] bg-white"></div>
-                        </div>
-
-                        <div class="flex-1 flex flex-col justify-end gap-2 group">
-                            <div class="w-full bg-zinc-800 rounded-t-sm chart-bar h-[20%] group-hover:bg-zinc-700 transition-colors relative">
-                                <div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 text-xs font-code text-white bg-zinc-800 px-2 py-1 rounded">Current</div>
-                            </div>
-                            <span class="text-[10px] text-zinc-500 text-center font-code">Q1</span>
-                        </div>
-                        <div class="flex-1 flex flex-col justify-end gap-2 group">
-                            <div class="w-full bg-blue-900 rounded-t-sm chart-bar h-[40%] group-hover:bg-blue-800 transition-colors relative"></div>
-                            <span class="text-[10px] text-zinc-500 text-center font-code">Q2</span>
-                        </div>
-                        <div class="flex-1 flex flex-col justify-end gap-2 group">
-                            <div class="w-full bg-blue-700 rounded-t-sm chart-bar h-[65%] group-hover:bg-blue-600 transition-colors relative"></div>
-                            <span class="text-[10px] text-zinc-500 text-center font-code">Q3</span>
-                        </div>
-                        <div class="flex-1 flex flex-col justify-end gap-2 group">
-                            <div class="w-full bg-blue-500 rounded-t-sm chart-bar h-[90%] shadow-[0_0_20px_rgba(59,130,246,0.5)] relative">
-                                <div class="opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 text-xs font-code text-blue-400 bg-black border border-blue-900 px-2 py-1 rounded">Optimized</div>
-                            </div>
-                            <span class="text-[10px] text-zinc-500 text-center font-code">Q4</span>
-                        </div>
+                    <div class="quote-author">
+                        — Andrew, CEO at AdCrunch
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="work" class="py-32 bg-[#080808]">
-        <div class="max-w-[1400px] mx-auto px-6 mb-20">
-            <span class="font-code text-blue-500 text-xs tracking-widest mb-2 block">02 // ARCHITECTURE</span>
-            <h2 class="text-5xl font-display font-bold text-white">DEPLOYED SYSTEMS</h2>
+    <section class="stats-section">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 60px;">
+                <h2 style="color: white;">The Cost of Inaction</h2>
+                <p style="color: #94A3B8;">Manual operations are the silent killer of scale.</p>
+            </div>
+            <div class="stats-grid reveal">
+                <div class="stat-item">
+                    <div class="stat-num">40%</div>
+                    <div class="stat-desc">Time spent on repetitive tasks by average knowledge workers.</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">1.5s</div>
+                    <div class="stat-desc">Response time of my AI Voice Agents vs. 4 hours for humans.</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">24/7</div>
+                    <div class="stat-desc">Uptime. No sick days. No holidays. No emotional burnout.</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">10x</div>
+                    <div class="stat-desc">ROI typically achieved within the first 90 days of deployment.</div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="flex flex-col gap-32 max-w-[1400px] mx-auto px-6">
+    <section class="calc-section" id="calculator">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 60px;">
+                <h2>Calculate Your Delta</h2>
+                <p class="lead" style="margin: 0 auto;">Quantify the exact cost of your current manual inefficiencies.</p>
+            </div>
             
-            <div class="project-row grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="order-2 lg:order-1 space-y-6">
-                    <div class="font-code text-blue-500 text-sm">/// CASE_001: LEAD_GEN_AUTO</div>
-                    <h3 class="text-4xl text-white font-bold">Autonomous Proposal Engine</h3>
-                    <p class="text-zinc-400 leading-relaxed">
-                        A headless agent that scrapes prospect URLs, analyzes brand voice using GPT-4o, and generates a custom proposal microsite. Zero human touch.
-                    </p>
-                    <div class="flex flex-wrap gap-2 pt-4">
-                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Next.js</span>
-                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Puppeteer</span>
-                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">OpenAI API</span>
+            <div class="calc-wrapper reveal">
+                <div>
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Hours Wasted / Week</span>
+                            <span class="slider-val"><span id="hoursVal">40</span> hrs</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="40" id="hoursInput">
                     </div>
-                    <div class="pt-8 border-t border-white/10 grid grid-cols-2 gap-4">
-                         <div>
-                            <span class="block text-2xl font-bold text-white">95%</span>
-                            <span class="text-[10px] text-zinc-500 uppercase font-code">Time Reduction</span>
-                         </div>
-                         <div>
-                            <span class="block text-2xl font-bold text-white">45s</span>
-                            <span class="text-[10px] text-zinc-500 uppercase font-code">Generation Time</span>
-                         </div>
+                    
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Hourly Cost of Staff ($)</span>
+                            <span class="slider-val">$<span id="rateVal">50</span>/hr</span>
+                        </div>
+                        <input type="range" min="20" max="200" value="50" id="rateInput">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Team Size</span>
+                            <span class="slider-val"><span id="teamVal">1</span> Employees</span>
+                        </div>
+                        <input type="range" min="1" max="20" value="1" id="teamInput">
                     </div>
                 </div>
-                <div class="order-1 lg:order-2 relative group cursor-none" data-cursor="view">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                    <div class="relative bg-[#111] rounded-xl overflow-hidden aspect-video border border-white/10">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0" alt="Dashboard">
+
+                <div class="calc-result-box">
+                    <div style="font-weight: 600; margin-bottom: 16px; opacity: 0.8;">Potential Annual Reclamation</div>
+                    <div class="calc-big-num">$<span id="savingsVal">104,000</span></div>
+                    <div class="calc-sub">Pure Profit Added to Bottom Line</div>
+                    <div style="margin-top: 32px;">
+                        <a href="#contact" class="btn btn-secondary" style="background: rgba(255,255,255,0.1); color: white; border: none;">Claim This Capital</a>
                     </div>
                 </div>
             </div>
-
-            <div class="project-row grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="order-2 lg:order-2 space-y-6">
-                    <div class="font-code text-purple-500 text-sm">/// CASE_002: VOICE_NEURAL_NET</div>
-                    <h3 class="text-4xl text-white font-bold">Concierge Voice AI</h3>
-                    <p class="text-zinc-400 leading-relaxed">
-                        Voice-to-action hospitality bot. Handles reservations, room service, and FAQs via phone with < 800ms latency. Direct SQL injection for bookings.
-                    </p>
-                    <div class="flex flex-wrap gap-2 pt-4">
-                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Vapi.ai</span>
-                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Supabase</span>
-                        <span class="px-3 py-1 border border-white/10 text-[10px] font-code text-zinc-300 rounded-full">Python</span>
-                    </div>
-                    <div class="pt-8 border-t border-white/10 grid grid-cols-2 gap-4">
-                         <div>
-                            <span class="block text-2xl font-bold text-white">24/7</span>
-                            <span class="text-[10px] text-zinc-500 uppercase font-code">Availability</span>
-                         </div>
-                         <div>
-                            <span class="block text-2xl font-bold text-white">$12k</span>
-                            <span class="text-[10px] text-zinc-500 uppercase font-code">Monthly Savings</span>
-                         </div>
-                    </div>
-                </div>
-                <div class="order-1 lg:order-1 relative group" data-cursor="view">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                    <div class="relative bg-[#111] rounded-xl overflow-hidden aspect-video border border-white/10">
-                         <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0" alt="Voice AI">
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 
-    <section class="py-32 px-6 bg-black border-t border-white/10 font-code">
-        <div class="max-w-[800px] mx-auto">
-            <div class="bg-[#0a0a0a] rounded-lg border border-white/10 overflow-hidden shadow-2xl">
-                <div class="bg-[#141414] px-4 py-3 border-b border-white/5 flex gap-2">
-                    <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
-                    <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
-                    <span class="ml-auto text-xs text-zinc-600">admin@krishnarana:~</span>
+    <section class="section-padding" id="results">
+        <div class="container">
+            <div class="text-center">
+                <h2>Intelligence at Scale</h2>
+                <p class="lead" style="margin: 0 auto;">A suite of capabilities designed to replace friction with flow.</p>
+            </div>
+            
+            <div class="bento-grid reveal">
+                <div class="bento-card bento-wide">
+                    <div>
+                        <div class="bento-icon"><i data-lucide="bot" color="#2563EB"></i></div>
+                        <h3>Autonomous Agents</h3>
+                        <p style="color: var(--text-secondary); margin-top: 12px;">
+                            I build headless agents that scrape prospect URLs, analyze brand voice, generate proposals, and send emails without you lifting a finger.
+                        </p>
+                    </div>
+                </div>
+                <div class="bento-card bento-tall">
+                    <div>
+                        <div class="bento-icon"><i data-lucide="database"></i></div>
+                        <h3>Vector Memory</h3>
+                        <p style="margin-top: 12px;">
+                            Standard GPT forgets. My systems remember. I implement RAG (Retrieval Augmented Generation) so your AI knows your entire PDF history, client database, and SOPs perfectly.
+                        </p>
+                    </div>
+                    <div style="margin-top: auto; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 0.8rem;">
+                        <i data-lucide="check" width="12" style="display:inline; margin-right:4px;"></i> Pinecone / Supabase Integration
+                    </div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-icon"><i data-lucide="phone" color="#2563EB"></i></div>
+                    <h3>Voice AI</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        Sub-800ms latency voice agents that handle inbound support and outbound qualification calls.
+                    </p>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-icon"><i data-lucide="zap" color="#2563EB"></i></div>
+                    <h3>Webhook Orchestration</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        Connecting your disparate apps (Notion, Asana, Salesforce) into a single, unified nervous system.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="process" style="background: #F8FAFC;">
+        <div class="container">
+            <div class="text-center">
+                <h2>The Deployment Protocol</h2>
+                <p class="lead" style="margin: 0 auto;">How we go from "Audit" to "Autopilot" in 14 days.</p>
+            </div>
+            
+            <div class="timeline reveal">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>01. The Audit</h3>
+                        <p style="color: var(--text-secondary); margin-top: 8px;">
+                            We don't guess. We track. I install monitoring on your current workflows to identify the highest-leverage bottlenecks based on data, not intuition.
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>02. The Architecture</h3>
+                        <p style="color: var(--text-secondary); margin-top: 8px;">
+                            Designing the brain. Selection of LLMs (Claude vs GPT-4), database structure, and logic flows. You get a full blueprint before a line of code is written.
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>03. Injection & Testing</h3>
+                        <p style="color: var(--text-secondary); margin-top: 8px;">
+                            We deploy agents in "Shadow Mode" first. They observe and draft responses for human approval. Once accuracy hits 99%, we remove the human.
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>04. Handover</h3>
+                        <p style="color: var(--text-secondary); margin-top: 8px;">
+                            You own the code. I provide full documentation and training videos so your team can manage the system (or keep me on retainer to do it).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+             <div class="text-center" style="margin-bottom: 40px;">
+                <h3>Trusted by Operators</h3>
+            </div>
+            <div class="marquee-wrapper">
+                <div class="test-card">
+                    <p class="test-text">"Krishna's deep research and constant testing lead to better outcomes. The system feels genuinely human."</p>
+                    <div class="test-author">
+                        <div class="test-avatar"></div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">Amisha</div>
+                            <div style="font-size: 0.8rem; color: #94A3B8;">Owner, Ahmedabad</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="test-card">
+                    <p class="test-text">"We were drowning in operational chaos. This system centralized everything. It's the upgrade we didn't know we needed."</p>
+                    <div class="test-author">
+                        <div class="test-avatar"></div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">Gagan</div>
+                            <div style="font-size: 0.8rem; color: #94A3B8;">Director, Ample Pubs</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="test-card">
+                    <p class="test-text">"Krishna's AI agents helped us build the seamless system we always wanted. Everything feels smoother."</p>
+                    <div class="test-author">
+                        <div class="test-avatar"></div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">Andrew</div>
+                            <div style="font-size: 0.8rem; color: #94A3B8;">CEO, AdCrunch</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="test-card">
+                    <p class="test-text">"Transformed our raw sheets into clear, meaningful information that helps us make informed decisions."</p>
+                    <div class="test-author">
+                        <div class="test-avatar"></div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">Tracy</div>
+                            <div style="font-size: 0.8rem; color: #94A3B8;">CTO, Michael Curtis</div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="test-card">
+                    <p class="test-text">"Fast answers, fewer calls, and a smoother experience for everyone."</p>
+                    <div class="test-author">
+                        <div class="test-avatar"></div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">Dr. Aniket</div>
+                            <div style="font-size: 0.8rem; color: #94A3B8;">IRI Dream Care</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="pricing" style="background: #F8FAFC;">
+        <div class="container">
+            <div class="text-center">
+                <h2>Partnership Models</h2>
+                <p class="lead" style="margin: 0 auto;">Two ways to deploy infrastructure.</p>
+            </div>
+            
+            <div class="pricing-grid reveal">
+                <div class="price-card">
+                    <div style="font-size: 0.85rem; font-weight: 700; color: #94A3B8; letter-spacing: 1px; margin-bottom: 16px;">SPRINT</div>
+                    <h3>The Build</h3>
+                    <p style="color: var(--text-secondary); margin: 16px 0;">
+                        Fixed-scope project to solve a specific bottleneck. Best for setting up a single agent or workflow.
+                    </p>
+                    <div class="price-amount">Fixed</div>
+                    <span class="price-sub">One-time investment</span>
+                    
+                    <ul style="list-style: none; margin-bottom: 32px;">
+                        <li style="margin-bottom: 12px;">✓ 1 Custom Agent Build</li>
+                        <li style="margin-bottom: 12px;">✓ Database Integration</li>
+                        <li style="margin-bottom: 12px;">✓ 2 Weeks Support</li>
+                        <li>✓ Full Code Handoff</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-secondary" style="width: 100%;">Scope a Sprint</a>
+                </div>
+
+                <div class="price-card featured">
+                    <div style="font-size: 0.85rem; font-weight: 700; color: #60A5FA; letter-spacing: 1px; margin-bottom: 16px;">RETAINER</div>
+                    <h3>The Architect</h3>
+                    <p style="color: #CBD5E1; margin: 16px 0;">
+                        Ongoing partnership. I become your fractional CTO of Automation, continuously optimizing and scaling systems.
+                    </p>
+                    <div class="price-amount">Monthly</div>
+                    <span class="price-sub">Recurring investment</span>
+                    
+                    <ul style="list-style: none; margin-bottom: 32px;">
+                        <li style="margin-bottom: 12px;">✓ Unlimited Agent Tuning</li>
+                        <li style="margin-bottom: 12px;">✓ Priority SLA Support</li>
+                        <li style="margin-bottom: 12px;">✓ New Feature Implementation</li>
+                        <li>✓ Weekly Strategy Calls</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary" style="width: 100%; background: white; color: var(--text-primary);">Start Retainer</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container" style="max-width: 800px;">
+            <div class="text-center" style="margin-bottom: 50px;">
+                <h2>Common Queries</h2>
+            </div>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary class="faq-question">Do I need technical skills to maintain this?</summary>
+                    <p class="faq-answer">No. I build "Admin Dashboards" for you. You don't touch code; you just toggle settings or view analytics. If something breaks, that's what the retainer is for.</p>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">Is my data secure?</summary>
+                    <p class="faq-answer">Yes. We use isolated instances. Your data is not used to train public models (like ChatGPT). We use enterprise-grade encryption for all vector stores.</p>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">How long does a build take?</summary>
+                    <p class="faq-answer">A simple agent takes 3-5 days. A complex, multi-modal system (Voice + CRM + Email) typically takes 2-3 weeks including the testing phase.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="contact" style="background: white; border-top: 1px solid #E2E8F0;">
+        <div class="container">
+            <div style="max-width: 600px; margin: 0 auto; padding: 40px; background: #F8FAFC; border-radius: var(--radius-lg); border: 1px solid #E2E8F0;">
+                <div class="text-center" style="margin-bottom: 32px;">
+                    <h3>Initialize Project</h3>
+                    <p style="color: var(--text-secondary);">Fill this out. My personal AI agent will analyze your site and email you a preliminary audit within 5 minutes.</p>
                 </div>
                 
-                <div class="p-8 space-y-8 text-sm">
-                    <div class="space-y-2">
-                        <p class="text-zinc-500">guest@user:~$ <span class="text-white">./inquire --pricing</span></p>
-                        <div class="pl-4 border-l border-zinc-800 text-zinc-300">
-                            <p>> Loading pricing models...</p>
-                            <p class="text-green-400">[SUCCESS]</p>
-                            <p>1. <span class="text-white font-bold">RETAINER:</span> Monthly engagement for ongoing scaling and agent management.</p>
-                            <p>2. <span class="text-white font-bold">SPRINT:</span> Fixed-cost architectural build for specific systems.</p>
-                        </div>
+                <form action="https://formsubmit.co/krishnarana@automationexperts.tech" method="POST">
+                    <input type="hidden" name="_subject" value="New Automation Inquiry">
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;">Company URL</label>
+                        <input type="url" name="url" required placeholder="https://company.com" style="width: 100%; padding: 12px; border: 1px solid #CBD5E1; border-radius: 8px;">
                     </div>
-
-                    <div class="space-y-2">
-                        <p class="text-zinc-500">guest@user:~$ <span class="text-white">./inquire --maintenance</span></p>
-                        <div class="pl-4 border-l border-zinc-800 text-zinc-300">
-                            <p>> Checking SLA policies...</p>
-                            <p>Automations are living organisms. API endpoints change. I provide Priority Support to ensure 99.9% uptime.</p>
-                        </div>
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;">Email Address</label>
+                        <input type="email" name="email" required placeholder="ceo@company.com" style="width: 100%; padding: 12px; border: 1px solid #CBD5E1; border-radius: 8px;">
                     </div>
-
-                    <div class="space-y-2">
-                        <p class="text-zinc-500">guest@user:~$ <span class="text-white">_</span><span class="animate-ping">|</span></p>
+                    <div style="margin-bottom: 24px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;">Biggest Bottleneck</label>
+                        <select name="bottleneck" style="width: 100%; padding: 12px; border: 1px solid #CBD5E1; border-radius: 8px; background: white;">
+                            <option>Inbound Lead Qualification</option>
+                            <option>Customer Support</option>
+                            <option>Data Entry / Admin</option>
+                            <option>Outbound Sales</option>
+                        </select>
                     </div>
-                </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Run Audit</button>
+                </form>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 border-t border-white/10 bg-black">
-        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs font-code text-zinc-600">
-            <div>
-                KRISHNA_RANA_SYSTEMS © 2025
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 16px;">
+                        <div class="logo-dot"></div>
+                        KRISHNA RANA
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                        Systems Architect. Helping companies scale revenue by removing human friction from the loop.
+                    </p>
+                </div>
+                <div>
+                    <h5 style="margin-bottom: 16px;">Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Audit</a></li>
+                        <li><a href="#">Architecture</a></li>
+                        <li><a href="#">Development</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="margin-bottom: 16px;">Socials</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="margin-bottom: 16px;">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="flex gap-6 mt-4 md:mt-0">
-                <a href="#" class="hover:text-white transition-colors">LINKEDIN</a>
-                <a href="#" class="hover:text-white transition-colors">GITHUB</a>
-                <a href="#" class="hover:text-white transition-colors">EMAIL</a>
+            <div style="text-align: center; font-size: 0.8rem; color: #94A3B8; margin-top: 40px;">
+                © 2025 Krishna Rana Systems. All rights reserved.
             </div>
         </div>
     </footer>
 
     <script>
-        // 1. INIT LUCIDE ICONS
+        // Initialize Icons
         lucide.createIcons();
 
-        // 2. SMOOTH SCROLL (LENIS)
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-        });
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // 3. PRELOADER LOGIC
-        window.addEventListener('load', () => {
-            const tl = gsap.timeline();
-            
-            tl.to('.loader-progress', {
-                width: '100%',
-                duration: 1.5,
-                ease: "power2.inOut"
-            })
-            .to('#preloader', {
-                y: '-100%',
-                duration: 1,
-                ease: "expo.inOut",
-                delay: 0.2
-            })
-            .from('h1 .reveal-text span', {
-                y: '100%',
-                duration: 1.5,
-                stagger: 0.1,
-                ease: "power4.out"
-            }, "-=0.5")
-            .from('.hero-desc', {
-                opacity: 0,
-                x: -20,
-                duration: 1
-            }, "-=1")
-            .from('.hero-btns', {
-                opacity: 0,
-                y: 20,
-                duration: 1
-            }, "-=0.8");
-        });
-
-        // 4. GSAP ANIMATIONS
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Animate Protocol Cards
-        gsap.utils.toArray('.protocol-card').forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 85%",
-                },
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                delay: i * 0.1,
-                ease: "power3.out"
-            });
-        });
-
-        // Animate Project Rows
-        gsap.utils.toArray('.project-row').forEach((row) => {
-            gsap.from(row, {
-                scrollTrigger: {
-                    trigger: row,
-                    start: "top 80%",
-                },
-                y: 100,
-                opacity: 0,
-                duration: 1.2,
-                ease: "power3.out"
-            });
-        });
-
-        // 5. CANVAS NEURAL NETWORK BACKGROUND
-        const canvas = document.getElementById("neuro");
-        const ctx = canvas.getContext("2d");
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener("resize", resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-            draw() {
-                ctx.fillStyle = "rgba(59, 130, 246, 0.5)"; // Blue particles
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        // Create particles
-        for (let i = 0; i < 80; i++) particles.push(new Particle());
-
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
-            
-            particles.forEach((p, index) => {
-                p.update();
-                p.draw();
-                
-                // Draw connections
-                for (let j = index + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dx = p.x - p2.x;
-                    const dy = p.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (dist < 150) {
-                        ctx.strokeStyle = `rgba(59, 130, 246, ${0.1 - dist/1500})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
+        // Reveal Animation on Scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 }
             });
-            requestAnimationFrame(animateCanvas);
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ROI Calculator Logic
+        const hoursInput = document.getElementById('hoursInput');
+        const rateInput = document.getElementById('rateInput');
+        const teamInput = document.getElementById('teamInput');
+        
+        const hoursVal = document.getElementById('hoursVal');
+        const rateVal = document.getElementById('rateVal');
+        const teamVal = document.getElementById('teamVal');
+        const savingsVal = document.getElementById('savingsVal');
+
+        function calculateROI() {
+            const h = parseInt(hoursInput.value);
+            const r = parseInt(rateInput.value);
+            const t = parseInt(teamInput.value);
+
+            hoursVal.textContent = h;
+            rateVal.textContent = r;
+            teamVal.textContent = t;
+
+            // Formula: Hours * Rate * Team * 52 Weeks
+            const total = h * r * t * 52;
+            savingsVal.textContent = total.toLocaleString();
         }
-        animateCanvas();
 
-        // 6. CUSTOM CURSOR LOGIC
-        const cursor = document.getElementById('cursor');
-        const cursorDot = document.getElementById('cursor-dot');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursorDot.style.left = e.clientX + 'px';
-            cursorDot.style.top = e.clientY + 'px';
-            
-            // Slight delay for the main ring for organic feel
-            setTimeout(() => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            }, 50);
-        });
-
-        document.querySelectorAll('[data-cursor="hover"]').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
-
-        // 7. SIMULATION LOGIC (DASHBOARD)
-        function updateSim() {
-            const hours = parseInt(document.getElementById('hoursInput').value);
-            const rate = parseInt(document.getElementById('rateInput').value);
-            const team = parseInt(document.getElementById('teamInput').value);
-            
-            document.getElementById('hoursVal').innerText = hours;
-            document.getElementById('rateVal').innerText = rate;
-            document.getElementById('teamVal').innerText = team;
-
-            const weeklyLoss = hours * rate * team;
-            const annualSavings = weeklyLoss * 52;
-            
-            // Animate Numbers
-            const display = document.getElementById('totalSavings');
-            const currentVal = parseInt(display.innerText.replace(/[^0-9]/g, '')) || 0;
-            
-            // Simple tween logic
-            let start = currentVal;
-            let end = annualSavings;
-            // Note: In a real React app we'd use state, here we just snap for performance or use a simple timer
-            display.innerText = '$' + annualSavings.toLocaleString();
-
-            // Update Badge
-            const badge = document.getElementById('ratingBadge');
-            if(annualSavings > 250000) {
-                badge.innerText = "S+ (CRITICAL)";
-                badge.className = "inline-block px-2 py-1 bg-red-900/30 border border-red-500/30 text-red-400 text-xs font-bold font-code rounded animate-pulse";
-            } else if (annualSavings > 100000) {
-                badge.innerText = "A (HIGH)";
-                badge.className = "inline-block px-2 py-1 bg-green-900/30 border border-green-500/30 text-green-400 text-xs font-bold font-code rounded";
-            } else {
-                badge.innerText = "B (STANDARD)";
-                badge.className = "inline-block px-2 py-1 bg-blue-900/30 border border-blue-500/30 text-blue-400 text-xs font-bold font-code rounded";
-            }
-            
-            // Update Bar Heights
-            const bars = document.querySelectorAll('.chart-bar');
-            bars[1].style.height = (20 + (annualSavings / 500000) * 20) + '%';
-            bars[2].style.height = (40 + (annualSavings / 500000) * 30) + '%';
-            bars[3].style.height = (60 + (annualSavings / 500000) * 40) + '%';
-        }
-        
-        // Init calc
-        updateSim();
-        
-        // Magnetic Button Logic
-        const magnetics = document.querySelectorAll('.magnetic-btn');
-        magnetics.forEach((btn) => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0, 0)';
-            });
-        });
+        hoursInput.addEventListener('input', calculateROI);
+        rateInput.addEventListener('input', calculateROI);
+        teamInput.addEventListener('input', calculateROI);
 
     </script>
 </body>
