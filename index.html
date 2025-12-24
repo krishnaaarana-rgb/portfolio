@@ -3,379 +3,604 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krishna Rana | Automation Architect</title>
+    <title>KRISHNA RANA | SYSTEMS ARCHITECT</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg-page: #F9FAFB;
-            --bg-card: #ffffff;
-            --border-subtle: #E5E7EB;
-            --text-main: #111827;
-            --text-muted: #6B7280;
-            --accent: #2563EB;
+            --bg-page: #f8fafc;
+            --line-color: #e2e8f0;
+            --accent: #2563eb;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-page);
-            color: var(--text-main);
-            background-image: 
-                linear-gradient(to right, #e5e7eb 1px, transparent 1px),
-                linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
-            background-size: 48px 48px;
+            color: #0f172a;
+            overflow-x: hidden;
         }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Technical Borders */
-        .tech-border {
-            border: 1px solid var(--border-subtle);
+        /* --- Technical Grid Background --- */
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+                linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+            background-size: 64px 64px;
             position: relative;
         }
-        .tech-border::after {
+        
+        /* Secondary smaller grid for detail */
+        .grid-bg::before {
             content: '';
             position: absolute;
-            bottom: -1px;
-            right: -1px;
-            width: 8px;
-            height: 8px;
-            border-bottom: 2px solid var(--text-muted);
-            border-right: 2px solid var(--text-muted);
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+                linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+            background-size: 16px 16px;
+            z-index: -1;
         }
 
-        /* Complex Gradients */
-        .mesh-gradient {
-            background-image: radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.1) 0px, transparent 50%),
-                            radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+        /* --- Crosshair Decorations --- */
+        .crosshair {
+            position: absolute;
+            width: 11px;
+            height: 11px;
+            z-index: 10;
+        }
+        .crosshair::before, .crosshair::after {
+            content: '';
+            position: absolute;
+            background-color: #94a3b8;
+        }
+        .crosshair::before { width: 1px; height: 100%; left: 5px; }
+        .crosshair::after { height: 1px; width: 100%; top: 5px; }
+
+        /* --- Typing Animation --- */
+        .typing-cursor::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+            color: var(--accent);
+            margin-left: 4px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* --- Marquee --- */
+        .marquee-container { mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+        .marquee-content { animation: scroll 40s linear infinite; }
+        .marquee-content.reverse { animation: scroll 40s linear infinite reverse; }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* --- Scanline Effect on Images --- */
+        .scanline-overlay {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.05));
+            background-size: 100% 4px;
+            pointer-events: none;
         }
 
-        /* Scrollbar hide */
+        /* --- Utility --- */
+        .glass-tech {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid #cbd5e1;
+        }
+        
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Workflow Connector Animation */
-        .connector-line {
-            stroke-dasharray: 10;
-            animation: dash 30s linear infinite;
+        
+        .btn-glitch:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            background-color: #000;
+            color: #fff;
         }
-        @keyframes dash {
-            to { stroke-dashoffset: -1000; }
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="grid-bg min-h-screen">
 
-    <div class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-6 h-12 flex justify-between items-center text-xs font-mono text-gray-500">
-            <div class="flex items-center gap-4">
-                <span class="text-black font-bold tracking-widest">KR_SYSTEMS_V2.1</span>
-                <span class="hidden md:inline text-green-600 flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                    OPERATIONAL
-                </span>
+    <div class="fixed inset-0 pointer-events-none z-50 p-6 flex flex-col justify-between mix-blend-multiply">
+        <div class="flex justify-between items-start">
+            <div class="crosshair top-6 left-6"></div>
+            <div class="crosshair top-6 right-6"></div>
+        </div>
+        <div class="flex justify-between items-end">
+            <div class="crosshair bottom-6 left-6"></div>
+            <div class="crosshair bottom-6 right-6"></div>
+        </div>
+    </div>
+
+    <nav class="fixed top-0 w-full z-40 bg-white/80 backdrop-blur border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 bg-blue-600 animate-pulse"></div>
+                <span class="font-bold text-lg tracking-tight">KRISHNA_RANA<span class="text-slate-400">.SYS</span></span>
             </div>
-            <div class="flex gap-6">
-                <span class="hidden md:inline">LATENCY: 12ms</span>
-                <a href="mailto:krishnarana@automationexperts.tech" class="hover:text-blue-600 transition-colors">[INITIATE_CONTACT]</a>
+            <div class="hidden md:flex gap-8 font-mono text-xs font-medium text-slate-500">
+                <a href="#capabilities" class="hover:text-black hover:underline decoration-blue-600 underline-offset-4 transition-all">[01] CAPABILITIES</a>
+                <a href="#work" class="hover:text-black hover:underline decoration-blue-600 underline-offset-4 transition-all">[02] WORKFLOWS</a>
+                <a href="#metrics" class="hover:text-black hover:underline decoration-blue-600 underline-offset-4 transition-all">[03] METRICS</a>
+                <a href="#intel" class="hover:text-black hover:underline decoration-blue-600 underline-offset-4 transition-all">[04] INTEL</a>
+            </div>
+            <a href="mailto:krishnarana@automationexperts.tech" class="px-5 py-2 bg-black text-white text-xs font-mono font-bold hover:bg-blue-600 transition-colors">
+                INITIALIZE_PROJECT_&gt;
+            </a>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-24 px-6 border-b border-slate-200 bg-white/50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-10 relative z-10">
+                    <div class="inline-flex items-center gap-3 px-3 py-1 bg-blue-50 border border-blue-100 text-blue-700 text-xs font-mono">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                        </span>
+                        SYSTEM_STATUS: ONLINE & SCALING
+                    </div>
+
+                    <h1 class="text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] text-slate-900">
+                        BUILDING<br>
+                        THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">INVISIBLE</span><br>
+                        MACHINE.
+                    </h1>
+
+                    <p class="text-xl text-slate-500 max-w-lg leading-relaxed border-l-2 border-blue-600 pl-6">
+                        I architect autonomous loops that replace human operational drag. <span class="text-slate-900 font-medium typing-cursor">No headcount. Just code.</span>
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="#work" class="btn-glitch px-8 py-4 bg-slate-900 text-white font-mono text-sm font-bold border border-slate-900 transition-all">
+                            VIEW_ARCHITECTURES
+                        </a>
+                        <a href="https://www.linkedin.com/in/krishnaaarana/" target="_blank" class="px-8 py-4 bg-white text-slate-900 font-mono text-sm font-bold border border-slate-300 hover:border-slate-900 transition-all">
+                            LINKEDIN_PROFILE
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative h-[500px] hidden lg:block border border-slate-200 bg-slate-50 p-2 rounded-lg shadow-2xl shadow-slate-200/50">
+                    <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+                    <div class="h-full w-full bg-slate-900 rounded overflow-hidden font-mono text-xs p-6 text-green-400/90 relative">
+                        <div class="absolute top-0 left-0 right-0 h-8 bg-slate-800 flex items-center px-4 gap-2 border-b border-slate-700">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="text-slate-400 ml-2">kr_core_v2.py</span>
+                        </div>
+                        <div class="mt-8 space-y-2 opacity-80">
+                            <p>> Initializing Neural Swarm...</p>
+                            <p class="text-blue-400">> Loading Context: Veda_Concierge_Module</p>
+                            <p>> Connection established: OpenAI [latency: 14ms]</p>
+                            <p>> Connection established: Supabase [latency: 22ms]</p>
+                            <p>> Connection established: Vapi.ai [latency: 45ms]</p>
+                            <p class="text-yellow-400">> WARN: High Traffic Detected. Autoscaling workers...</p>
+                            <p>> Worker_01 deployed.</p>
+                            <p>> Worker_02 deployed.</p>
+                            <p class="mt-4 text-white">
+                                <span class="text-purple-400">def</span> <span class="text-yellow-300">optimize_revenue</span>(self):<br>
+                                &nbsp;&nbsp;current_spend = 0<br>
+                                &nbsp;&nbsp;automated_output = <span class="text-green-300">"Infinite"</span><br>
+                                &nbsp;&nbsp;<span class="text-purple-400">return</span> automated_output
+                            </p>
+                        </div>
+                        <div class="absolute bottom-10 right-10 w-32 h-32 border border-green-500/30 rounded-full flex items-center justify-center">
+                            <div class="w-full h-[1px] bg-green-500/50 absolute animate-[spin_4s_linear_infinite]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="bg-slate-900 text-slate-400 text-[10px] font-mono py-2 border-y border-slate-800 overflow-hidden">
+        <div class="marquee-container">
+            <div class="marquee-content flex gap-8 whitespace-nowrap">
+                <span>SYSTEM_LOAD: 34%</span>
+                <span>•</span>
+                <span>ACTIVE_AGENTS: 54</span>
+                <span>•</span>
+                <span>TOKENS_PROCESSED_TODAY: 1,402,993</span>
+                <span>•</span>
+                <span>AVG_RESPONSE_TIME: 800ms</span>
+                <span>•</span>
+                <span>CLIENT_UPTIME: 99.99%</span>
+                <span>•</span>
+                <span>SYSTEM_LOAD: 34%</span>
+                <span>•</span>
+                <span>ACTIVE_AGENTS: 54</span>
+                <span>•</span>
+                <span>TOKENS_PROCESSED_TODAY: 1,402,993</span>
+                <span>•</span>
+                <span>AVG_RESPONSE_TIME: 800ms</span>
+                <span>•</span>
+                <span>CLIENT_UPTIME: 99.99%</span>
             </div>
         </div>
     </div>
 
-    <main class="pt-24 pb-20 max-w-7xl mx-auto px-6">
-        
-        <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-12 pb-32 border-b border-gray-200">
-            <div class="lg:col-span-7 space-y-8">
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 border border-gray-200 rounded text-xs font-mono text-gray-600">
-                    <span>STATUS: AVAILABLE FOR RETAINER</span>
+    <section id="capabilities" class="py-24 px-6 border-b border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+                <div class="md:col-span-4">
+                    <span class="text-blue-600 font-mono text-xs font-bold tracking-widest uppercase mb-2 block">/// THE ARSENAL</span>
+                    <h2 class="text-4xl font-bold mb-6">Full-Stack<br>Autonomy.</h2>
+                    <p class="text-slate-500 leading-relaxed mb-8">
+                        I don't just write scripts. I build complete ecosystems where Voice, Text, and Data interact seamlessly.
+                    </p>
+                    <div class="p-6 bg-slate-50 border border-slate-200 rounded text-sm space-y-3">
+                        <div class="flex justify-between font-mono text-slate-500 text-xs">
+                            <span>AUTOMATION_LEVEL</span>
+                            <span>98%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-blue-600 h-full w-[98%]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="group border border-slate-200 p-6 hover:bg-slate-900 hover:text-white transition-all duration-300">
+                        <div class="mb-4 text-slate-400 group-hover:text-blue-400"><i data-lucide="workflow" class="w-8 h-8"></i></div>
+                        <h3 class="font-mono font-bold text-lg mb-1">n8n</h3>
+                        <p class="text-xs text-slate-500 group-hover:text-slate-400">Advanced Orchestration</p>
+                    </div>
+                    <div class="group border border-slate-200 p-6 hover:bg-slate-900 hover:text-white transition-all duration-300">
+                        <div class="mb-4 text-slate-400 group-hover:text-blue-400"><i data-lucide="code-2" class="w-8 h-8"></i></div>
+                        <h3 class="font-mono font-bold text-lg mb-1">Python</h3>
+                        <p class="text-xs text-slate-500 group-hover:text-slate-400">Custom Logic Modules</p>
+                    </div>
+                    <div class="group border border-slate-200 p-6 hover:bg-slate-900 hover:text-white transition-all duration-300">
+                        <div class="mb-4 text-slate-400 group-hover:text-blue-400"><i data-lucide="database" class="w-8 h-8"></i></div>
+                        <h3 class="font-mono font-bold text-lg mb-1">Supabase</h3>
+                        <p class="text-xs text-slate-500 group-hover:text-slate-400">Vector Memory</p>
+                    </div>
+                    <div class="group border border-slate-200 p-6 hover:bg-slate-900 hover:text-white transition-all duration-300">
+                        <div class="mb-4 text-slate-400 group-hover:text-blue-400"><i data-lucide="mic-2" class="w-8 h-8"></i></div>
+                        <h3 class="font-mono font-bold text-lg mb-1">Vapi.ai</h3>
+                        <p class="text-xs text-slate-500 group-hover:text-slate-400">Voice Synthesis</p>
+                    </div>
+                    <div class="group border border-slate-200 p-6 hover:bg-slate-900 hover:text-white transition-all duration-300">
+                        <div class="mb-4 text-slate-400 group-hover:text-blue-400"><i data-lucide="brain-circuit" class="w-8 h-8"></i></div>
+                        <h3 class="font-mono font-bold text-lg mb-1">Claude 3.5</h3>
+                        <p class="text-xs text-slate-500 group-hover:text-slate-400">Reasoning Engine</p>
+                    </div>
+                    <div class="group border border-slate-200 p-6 hover:bg-slate-900 hover:text-white transition-all duration-300">
+                        <div class="mb-4 text-slate-400 group-hover:text-blue-400"><i data-lucide="zap" class="w-8 h-8"></i></div>
+                        <h3 class="font-mono font-bold text-lg mb-1">Make</h3>
+                        <p class="text-xs text-slate-500 group-hover:text-slate-400">Legacy Integration</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto space-y-32">
+            
+            <div class="flex justify-between items-end border-b-2 border-black pb-6">
+                <h2 class="text-5xl md:text-7xl font-bold uppercase tracking-tight">System<br>Architecture</h2>
+                <div class="text-right hidden md:block">
+                    <p class="font-mono text-xs text-slate-500">DISPLAYING: PRODUCTION_BUILDS</p>
+                    <p class="font-mono text-xs text-slate-500">SECURITY_LEVEL: PUBLIC_VIEW</p>
+                </div>
+            </div>
+
+            <div class="group">
+                <div class="flex flex-col md:flex-row justify-between mb-8 gap-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-2 py-0.5 bg-blue-600 text-white text-[10px] font-mono uppercase font-bold">Flagship</span>
+                            <span class="font-mono text-xs text-slate-400">ID: #PROPOSAL_GEN_V2</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-2">Autonomous Web Proposal Engine</h3>
+                        <p class="text-slate-500 max-w-xl">
+                            Input a URL → Agents research the brand → Copywriters draft content → Developers write code → Deployed to Netlify. <span class="text-black font-semibold">Zero human touch.</span>
+                        </p>
+                    </div>
+                    <div class="flex gap-2 items-start font-mono text-xs">
+                        <span class="border border-slate-200 px-3 py-1">Gemini 1.5</span>
+                        <span class="border border-slate-200 px-3 py-1">Netlify API</span>
+                    </div>
                 </div>
                 
-                <h1 class="text-5xl md:text-7xl font-semibold tracking-tight text-gray-900 leading-[1.1]">
-                    Enterprise-Grade <br>
-                    <span class="text-blue-600">Automation Architecture</span>
-                </h1>
+                <div class="w-full bg-slate-100 border border-slate-300 p-2 rounded-lg relative overflow-hidden group-hover:shadow-2xl transition-all duration-500">
+                    <div class="bg-white border-b border-slate-200 px-4 py-2 flex justify-between items-center text-[10px] font-mono text-slate-500">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            <span>WORKFLOW_VISUALIZER</span>
+                        </div>
+                        <span>ZOOM: 100%</span>
+                    </div>
+                    <div class="relative overflow-hidden bg-slate-50">
+                        <div class="scanline-overlay absolute inset-0 z-10"></div>
+                        <img src="https://drive.google.com/uc?export=view&id=16_EjrkYf3e4vJQoTKdjWL4Hv9MzdHT7A" 
+                             alt="Proposal Generator Workflow" 
+                             class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-[1.01]">
+                    </div>
+                    <div class="absolute bottom-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="bg-black/90 backdrop-blur text-white p-4 font-mono text-xs border-l-2 border-blue-500">
+                            <p>NODES: 42</p>
+                            <p>EXECUTION_TIME: 45s</p>
+                            <p>COST_PER_RUN: $0.04</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group">
+                <div class="flex flex-col md:flex-row justify-between mb-8 gap-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-2 py-0.5 bg-purple-600 text-white text-[10px] font-mono uppercase font-bold">Voice AI</span>
+                            <span class="font-mono text-xs text-slate-400">ID: #VEDA_CORE</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-2">Veda Concierge System</h3>
+                        <p class="text-slate-500 max-w-xl">
+                            24/7 Hospitality voice agent. Handles room service, bookings, and FAQs via phone. Real-time transcription and action dispatch.
+                        </p>
+                    </div>
+                    <div class="flex gap-2 items-start font-mono text-xs">
+                        <span class="border border-slate-200 px-3 py-1">Vapi.ai</span>
+                        <span class="border border-slate-200 px-3 py-1">OpenAI</span>
+                    </div>
+                </div>
                 
-                <p class="text-xl text-gray-500 leading-relaxed max-w-2xl">
-                    I don't just "connect APIs." I engineer fault-tolerant, self-healing automation infrastructures that scale businesses without scaling headcount.
-                </p>
-
-                <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                    <a href="#projects" class="px-6 py-4 bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 group">
-                        View Architectures
-                        <i data-lucide="arrow-down-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                    <div class="flex items-center gap-4 px-6 py-4 border border-gray-200 bg-white">
-                        <div class="flex -space-x-3">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 border-2 border-white flex items-center justify-center text-[10px] font-bold">n8n</div>
-                            <div class="w-8 h-8 rounded-full bg-green-100 border-2 border-white flex items-center justify-center text-[10px] font-bold">Py</div>
-                            <div class="w-8 h-8 rounded-full bg-purple-100 border-2 border-white flex items-center justify-center text-[10px] font-bold">AI</div>
+                <div class="w-full bg-slate-100 border border-slate-300 p-2 rounded-lg relative overflow-hidden group-hover:shadow-2xl transition-all duration-500">
+                    <div class="bg-white border-b border-slate-200 px-4 py-2 flex justify-between items-center text-[10px] font-mono text-slate-500">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            <span>WORKFLOW_VISUALIZER</span>
                         </div>
-                        <span class="text-sm font-medium text-gray-600">Full Stack Automation</span>
+                        <span>ZOOM: 100%</span>
+                    </div>
+                    <div class="relative overflow-hidden bg-slate-50">
+                        <div class="scanline-overlay absolute inset-0 z-10"></div>
+                        <img src="https://drive.google.com/uc?export=view&id=1Tb3WrIzw3ndDo6LfPaxCCdwsv9drTu_B" 
+                             alt="Veda Workflow" 
+                             class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
                     </div>
                 </div>
             </div>
 
-            <div class="lg:col-span-5 relative hidden lg:block">
-                <div class="absolute inset-0 bg-gradient-to-tr from-blue-50 to-transparent rounded-lg"></div>
-                <div class="relative bg-white border border-gray-200 shadow-xl rounded-lg p-6 font-mono text-xs overflow-hidden">
-                    <div class="flex items-center gap-2 mb-4 text-gray-400 border-b border-gray-100 pb-2">
-                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-400"></div>
-                        <span class="ml-2">workflow_engine.py</span>
+            <div class="group">
+                <div class="flex flex-col md:flex-row justify-between mb-8 gap-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-2 py-0.5 bg-slate-600 text-white text-[10px] font-mono uppercase font-bold">Infrastructure</span>
+                            <span class="font-mono text-xs text-slate-400">ID: #SYNC_MASTER</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-2">Bi-Directional DB Sync</h3>
+                        <p class="text-slate-500 max-w-xl">
+                            Deep integration between Notion and Asana. Maintains state consistency across thousands of records with conflict resolution logic.
+                        </p>
                     </div>
-                    <div class="space-y-1 text-gray-600">
-                        <p><span class="text-purple-600">class</span> <span class="text-blue-600">AutoScaleEngine</span>:</p>
-                        <p class="pl-4"><span class="text-purple-600">def</span> <span class="text-yellow-600">__init__</span>(self, client_id):</p>
-                        <p class="pl-8">self.agents = <span class="text-green-600">AgentSwarm</span>(model=<span class="text-green-600">'claude-3.5'</span>)</p>
-                        <p class="pl-8">self.db = <span class="text-green-600">Supabase</span>.connect()</p>
-                        <p class="pl-4">&nbsp;</p>
-                        <p class="pl-4"><span class="text-purple-600">async def</span> <span class="text-yellow-600">execute_workflow</span>(self, trigger):</p>
-                        <p class="pl-8"><span class="text-gray-400"># Autonomous routing logic</span></p>
-                        <p class="pl-8">intent = <span class="text-purple-600">await</span> self.agents.classify(trigger)</p>
-                        <p class="pl-8"><span class="text-purple-600">if</span> intent == <span class="text-green-600">'HIGH_VALUE'</span>:</p>
-                        <p class="pl-12">return self.agents.negotiate(trigger)</p>
-                        <p class="pl-8"><span class="text-purple-600">else</span>:</p>
-                        <p class="pl-12">return self.standard_queue.process()</p>
-                    </div>
-                    <div class="absolute bottom-4 right-4 bg-black text-white px-3 py-1 text-[10px] uppercase tracking-wider">
-                        System Active
+                    <div class="flex gap-2 items-start font-mono text-xs">
+                        <span class="border border-slate-200 px-3 py-1">Notion API</span>
+                        <span class="border border-slate-200 px-3 py-1">Asana</span>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section class="py-16 border-b border-gray-200">
-            <p class="text-xs font-mono text-gray-400 mb-8 uppercase tracking-widest">Core Infrastructure Stack</p>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                <div class="p-4 border border-gray-200 bg-white hover:border-blue-500 transition-colors group cursor-default">
-                    <h3 class="font-bold text-gray-900 group-hover:text-blue-600">n8n</h3>
-                    <p class="text-xs text-gray-500 mt-1">Orchestration</p>
-                </div>
-                <div class="p-4 border border-gray-200 bg-white hover:border-blue-500 transition-colors group cursor-default">
-                    <h3 class="font-bold text-gray-900 group-hover:text-blue-600">Python</h3>
-                    <p class="text-xs text-gray-500 mt-1">Custom Logic</p>
-                </div>
-                <div class="p-4 border border-gray-200 bg-white hover:border-blue-500 transition-colors group cursor-default">
-                    <h3 class="font-bold text-gray-900 group-hover:text-blue-600">Supabase</h3>
-                    <p class="text-xs text-gray-500 mt-1">Vector DB</p>
-                </div>
-                <div class="p-4 border border-gray-200 bg-white hover:border-blue-500 transition-colors group cursor-default">
-                    <h3 class="font-bold text-gray-900 group-hover:text-blue-600">Vapi.ai</h3>
-                    <p class="text-xs text-gray-500 mt-1">Voice Agents</p>
-                </div>
-                <div class="p-4 border border-gray-200 bg-white hover:border-blue-500 transition-colors group cursor-default">
-                    <h3 class="font-bold text-gray-900 group-hover:text-blue-600">Claude 3.5</h3>
-                    <p class="text-xs text-gray-500 mt-1">Reasoning</p>
-                </div>
-                <div class="p-4 border border-gray-200 bg-white hover:border-blue-500 transition-colors group cursor-default">
-                    <h3 class="font-bold text-gray-900 group-hover:text-blue-600">OpenAI</h3>
-                    <p class="text-xs text-gray-500 mt-1">LLM Core</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="py-24">
-            <div class="flex justify-between items-end mb-12">
-                <div>
-                    <h2 class="text-3xl font-bold mb-2">System Architectures</h2>
-                    <p class="text-gray-500">A look under the hood at production workflows.</p>
-                </div>
-            </div>
-
-            <div class="space-y-24">
                 
-                <div class="group">
-                    <div class="grid lg:grid-cols-3 gap-8 mb-6">
-                        <div class="lg:col-span-1 space-y-6">
-                            <div>
-                                <h3 class="text-2xl font-bold text-gray-900">Autonomous Proposal Engine</h3>
-                                <p class="text-sm font-mono text-blue-600 mt-1">v2.1_production</p>
-                            </div>
-                            <p class="text-gray-600 leading-relaxed">
-                                A complex multi-agent system that takes a single business URL, scrapes the site, analyzes brand voice, and generates a fully coded landing page proposal deployed to Netlify.
-                            </p>
-                            
-                            <div class="space-y-4">
-                                <div class="p-4 bg-gray-50 border border-gray-200 rounded text-sm">
-                                    <div class="font-semibold mb-2">The Challenge</div>
-                                    <p class="text-gray-500">Client spent 4 hours per lead creating custom demos manually.</p>
-                                </div>
-                                <div class="p-4 bg-blue-50 border border-blue-100 rounded text-sm">
-                                    <div class="font-semibold text-blue-900">The Automation</div>
-                                    <p class="text-blue-800">Reduced time to 45 seconds per lead. 100% autonomous.</p>
-                                </div>
-                            </div>
+                <div class="w-full bg-slate-100 border border-slate-300 p-2 rounded-lg relative overflow-hidden group-hover:shadow-2xl transition-all duration-500">
+                    <div class="bg-white border-b border-slate-200 px-4 py-2 flex justify-between items-center text-[10px] font-mono text-slate-500">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            <span>WORKFLOW_VISUALIZER</span>
                         </div>
-
-                        <div class="lg:col-span-2 tech-border bg-white p-2 shadow-sm">
-                            <div class="relative w-full aspect-video bg-gray-100 overflow-hidden group-hover:shadow-lg transition-all">
-                                <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;"></div>
-                                
-                                <div class="absolute top-1/2 left-10 w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center text-white text-xs font-bold">Start</div>
-                                <div class="absolute top-1/2 left-1/4 w-32 h-12 bg-white border border-gray-300 rounded-lg flex items-center justify-center text-xs font-mono shadow-sm">Scrape Data</div>
-                                <div class="absolute top-1/3 left-1/2 w-32 h-12 bg-white border border-gray-300 rounded-lg flex items-center justify-center text-xs font-mono shadow-sm">AI Analysis</div>
-                                <div class="absolute top-2/3 left-1/2 w-32 h-12 bg-white border border-gray-300 rounded-lg flex items-center justify-center text-xs font-mono shadow-sm">Code Gen</div>
-                                <div class="absolute top-1/2 right-10 w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center text-white text-xs font-bold">End</div>
-                                
-                                <svg class="absolute inset-0 pointer-events-none w-full h-full">
-                                    <path d="M50 150 L200 150" stroke="#cbd5e1" stroke-width="2" fill="none" />
-                                    <path d="M300 150 L400 100" stroke="#cbd5e1" stroke-width="2" fill="none" />
-                                    <path d="M300 150 L400 200" stroke="#cbd5e1" stroke-width="2" fill="none" />
-                                </svg>
-                                
-                                <div class="absolute bottom-4 right-4 text-xs font-mono text-gray-500 bg-white/80 px-2 py-1">
-                                    [PLACE YOUR N8N SCREENSHOT HERE]
-                                </div>
-                            </div>
-                        </div>
+                        <span>ZOOM: 100%</span>
                     </div>
-                </div>
-
-                <hr class="border-gray-200">
-
-                <div class="group">
-                    <div class="grid lg:grid-cols-3 gap-8 mb-6">
-                        <div class="lg:col-span-1 space-y-6">
-                            <div>
-                                <h3 class="text-2xl font-bold text-gray-900">Veda Concierge Voice Brain</h3>
-                                <p class="text-sm font-mono text-blue-600 mt-1">vapi.ai_integration</p>
-                            </div>
-                            <p class="text-gray-600 leading-relaxed">
-                                A voice-to-action pipeline. It listens to hospitality requests, parses intent via OpenAI, and triggers physical actions (booking, room service dispatch) in real-time.
-                            </p>
-                            <div class="flex gap-2 flex-wrap">
-                                <span class="px-2 py-1 bg-gray-100 text-xs font-mono">Webhooks</span>
-                                <span class="px-2 py-1 bg-gray-100 text-xs font-mono">JSON Parsing</span>
-                                <span class="px-2 py-1 bg-gray-100 text-xs font-mono">Latency < 800ms</span>
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-2 tech-border bg-white p-2 shadow-sm">
-                             <div class="relative w-full aspect-video bg-gray-100 overflow-hidden group-hover:shadow-lg transition-all">
-                                <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;"></div>
-                                <div class="absolute top-1/2 left-10 w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center text-white text-xs font-bold">Call</div>
-                                <div class="absolute top-1/2 left-32 w-40 h-12 bg-white border border-gray-300 rounded-lg flex items-center justify-center text-xs font-mono shadow-sm">Vapi Transcript</div>
-                                <div class="absolute top-1/2 right-32 w-40 h-12 bg-white border border-gray-300 rounded-lg flex items-center justify-center text-xs font-mono shadow-sm">Function Call</div>
-                                <div class="absolute bottom-4 right-4 text-xs font-mono text-gray-500 bg-white/80 px-2 py-1">
-                                    [PLACE YOUR N8N SCREENSHOT HERE]
-                                </div>
-                            </div>
-                        </div>
+                    <div class="relative overflow-hidden bg-slate-50">
+                        <div class="scanline-overlay absolute inset-0 z-10"></div>
+                        <img src="https://drive.google.com/uc?export=view&id=16xYVLmvg9-qjFr5c4ubz5cFdaDJ2FUOG" 
+                             alt="Notion Sync Workflow" 
+                             class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
                     </div>
                 </div>
             </div>
-        </section>
 
-        <section class="py-24 border-t border-gray-200">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold mb-4">Engagement Models</h2>
-                <p class="text-gray-500">Flexible structures for scaling teams.</p>
+            <div class="group">
+                <div class="flex flex-col md:flex-row justify-between mb-8 gap-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-2 py-0.5 bg-orange-600 text-white text-[10px] font-mono uppercase font-bold">Sales AI</span>
+                            <span class="font-mono text-xs text-slate-400">ID: #LEAD_QUALIFIER</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-2">Voice Lead Qualification</h3>
+                        <p class="text-slate-500 max-w-xl">
+                            Outbound/Inbound agent that qualifies leads against a rubric, updates CRM scores, and schedules meetings for closers.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="w-full bg-slate-100 border border-slate-300 p-2 rounded-lg relative overflow-hidden group-hover:shadow-2xl transition-all duration-500">
+                    <div class="bg-white border-b border-slate-200 px-4 py-2 flex justify-between items-center text-[10px] font-mono text-slate-500">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            <span>WORKFLOW_VISUALIZER</span>
+                        </div>
+                        <span>ZOOM: 100%</span>
+                    </div>
+                    <div class="relative overflow-hidden bg-slate-50">
+                        <div class="scanline-overlay absolute inset-0 z-10"></div>
+                        <img src="https://drive.google.com/uc?export=view&id=1d-OW8H5b9i006vXlfsezHs81vaTEo7Mw" 
+                             alt="Voice Workflow" 
+                             class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="p-8 bg-white border border-gray-200 hover:border-blue-500 transition-colors relative overflow-hidden">
+        </div>
+    </section>
+
+    <section id="intel" class="py-24 bg-slate-900 text-white border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-16 h-[1px] bg-blue-500"></div>
+                <h2 class="text-2xl font-mono tracking-widest">FIELD_REPORTS</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="bg-slate-800/50 p-8 border border-slate-700 hover:border-blue-500 transition-colors relative">
+                    <div class="absolute top-4 right-4 text-blue-500 opacity-20"><i data-lucide="quote" class="w-8 h-8"></i></div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://drive.google.com/uc?export=view&id=1h00yT9GsyZlXo7SP3uiTYGFfb94yzA1m" class="w-12 h-12 rounded-full border-2 border-slate-600 grayscale">
+                        <div>
+                            <div class="font-bold text-sm">Dr. Aniket</div>
+                            <div class="text-xs text-slate-400 font-mono">IRI DREAM CARE</div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">"Fast answers, fewer calls, and a smoother experience for everyone. The AI assistant made our daily work much easier."</p>
+                </div>
+
+                <div class="bg-slate-800/50 p-8 border border-slate-700 hover:border-blue-500 transition-colors relative">
+                    <div class="absolute top-4 right-4 text-blue-500 opacity-20"><i data-lucide="quote" class="w-8 h-8"></i></div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://drive.google.com/uc?export=view&id=1CN1ABCC6VRJEaCbr2JXAPJz0EYnmrWOJ" class="w-12 h-12 rounded-full border-2 border-slate-600 grayscale">
+                        <div>
+                            <div class="font-bold text-sm">Gagan</div>
+                            <div class="text-xs text-slate-400 font-mono">AMPLE PUBS</div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">"We were drowning in operational chaos. This system centralized everything. It's the upgrade we didn't know we needed."</p>
+                </div>
+
+                <div class="bg-slate-800/50 p-8 border border-slate-700 hover:border-blue-500 transition-colors relative">
+                    <div class="absolute top-4 right-4 text-blue-500 opacity-20"><i data-lucide="quote" class="w-8 h-8"></i></div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://drive.google.com/uc?export=view&id=1DeOubSXhRZUGGcrCzzkdpyngEgp2G3k3" class="w-12 h-12 rounded-full border-2 border-slate-600 grayscale">
+                        <div>
+                            <div class="font-bold text-sm">Andrew</div>
+                            <div class="text-xs text-slate-400 font-mono">CEO, ADCRUNCH</div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">"Krishna's AI agents helped us build the seamless system we always wanted. Everything feels smoother."</p>
+                </div>
+
+                 <div class="bg-slate-800/50 p-8 border border-slate-700 hover:border-blue-500 transition-colors relative">
+                    <div class="absolute top-4 right-4 text-blue-500 opacity-20"><i data-lucide="quote" class="w-8 h-8"></i></div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://drive.google.com/uc?export=view&id=1E2-DIQDrsrlT1M8Y0UECsUhWXXQQvEc2" class="w-12 h-12 rounded-full border-2 border-slate-600 grayscale">
+                        <div>
+                            <div class="font-bold text-sm">Tracy</div>
+                            <div class="text-xs text-slate-400 font-mono">CTO, MICHAEL CURTIS</div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">"Transformed our raw sheets into clear, meaningful information that helps us make informed decisions."</p>
+                </div>
+
+                 <div class="bg-slate-800/50 p-8 border border-slate-700 hover:border-blue-500 transition-colors relative">
+                    <div class="absolute top-4 right-4 text-blue-500 opacity-20"><i data-lucide="quote" class="w-8 h-8"></i></div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://drive.google.com/uc?export=view&id=1jcswGP7q1NZ2CJa3ubrrSy-S-4wL7dI0" class="w-12 h-12 rounded-full border-2 border-slate-600 grayscale">
+                        <div>
+                            <div class="font-bold text-sm">Amisha</div>
+                            <div class="text-xs text-slate-400 font-mono">AHMEDABAD</div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">"Deep research and constant testing lead to better outcomes. The chatbot experience feels genuinely human."</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 border-b border-slate-200">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">Engagement Protocols</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="border border-slate-200 p-8 relative overflow-hidden group hover:border-blue-600 transition-colors">
                     <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-                    <h3 class="text-xl font-bold mb-2">Monthly Retainer</h3>
-                    <p class="text-sm text-gray-500 mb-6">For ongoing architecture & maintenance</p>
-                    <ul class="space-y-4 mb-8 text-sm text-gray-600">
-                        <li class="flex items-center gap-2">
-                            <i data-lucide="check" class="w-4 h-4 text-blue-600"></i> Priority SLA Support
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i data-lucide="check" class="w-4 h-4 text-blue-600"></i> Continuous Optimization
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i data-lucide="check" class="w-4 h-4 text-blue-600"></i> 20 hrs/month reserved capacity
-                        </li>
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-xl font-bold">System Retainer</h3>
+                        <span class="font-mono text-xs bg-blue-50 text-blue-600 px-2 py-1">MOST POPULAR</span>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-8 h-12">Continuous optimization, new feature rollouts, and priority maintenance for scaling businesses.</p>
+                    <ul class="space-y-4 mb-8 text-sm font-mono text-slate-600">
+                        <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-blue-600"></div> 20 Hours Reserved Capacity</li>
+                        <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-blue-600"></div> Priority SLA < 4hrs</li>
+                        <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-blue-600"></div> Weekly Architecture Review</li>
                     </ul>
-                    <a href="mailto:krishnarana@automationexperts.tech" class="block w-full py-3 bg-gray-50 border border-gray-200 text-center text-sm font-medium hover:bg-gray-100 transition-colors">Inquire Availability</a>
+                    <a href="mailto:krishnarana@automationexperts.tech?subject=Retainer Inquiry" class="block w-full py-4 bg-slate-50 border border-slate-200 text-center font-bold text-sm hover:bg-slate-900 hover:text-white transition-all">CHECK AVAILABILITY</a>
                 </div>
 
-                <div class="p-8 bg-white border border-gray-200 hover:border-blue-500 transition-colors relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gray-900"></div>
-                    <h3 class="text-xl font-bold mb-2">Project Sprint</h3>
-                    <p class="text-sm text-gray-500 mb-6">For specific system builds</p>
-                    <ul class="space-y-4 mb-8 text-sm text-gray-600">
-                        <li class="flex items-center gap-2">
-                            <i data-lucide="check" class="w-4 h-4 text-gray-900"></i> Fixed Scope & Timeline
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i data-lucide="check" class="w-4 h-4 text-gray-900"></i> Full System Documentation
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i data-lucide="check" class="w-4 h-4 text-gray-900"></i> 30-Day Warranty
-                        </li>
+                <div class="border border-slate-200 p-8 relative overflow-hidden group hover:border-black transition-colors">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-slate-900"></div>
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-xl font-bold">Architecture Sprint</h3>
+                        <span class="font-mono text-xs bg-slate-100 text-slate-600 px-2 py-1">FIXED SCOPE</span>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-8 h-12">Rapid deployment of a specific automation system. Best for MVPs or specific problem solving.</p>
+                    <ul class="space-y-4 mb-8 text-sm font-mono text-slate-600">
+                        <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-black"></div> 2-Week Turnaround</li>
+                        <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-black"></div> Full Code Handoff</li>
+                        <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-black"></div> 30-Day Warranty</li>
                     </ul>
-                    <a href="mailto:krishnarana@automationexperts.tech" class="block w-full py-3 bg-gray-900 text-white text-center text-sm font-medium hover:bg-gray-800 transition-colors">Start a Sprint</a>
+                    <a href="mailto:krishnarana@automationexperts.tech?subject=Sprint Inquiry" class="block w-full py-4 bg-slate-900 text-white text-center font-bold text-sm hover:bg-blue-600 transition-all">INITIATE SPRINT</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="py-24">
-            <h2 class="text-xl font-bold mb-8">Client Outcomes</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 border border-gray-200">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center font-bold text-xs">DA</div>
-                        <div class="text-sm font-medium">Dr. Aniket, IRI Dream Care</div>
-                    </div>
-                    <p class="text-sm text-gray-600 leading-relaxed">"Krishna doesn't just build chatbots; he builds business logic. The system reduced our call volume by 40% in week one."</p>
-                </div>
-
-                <div class="bg-white p-6 border border-gray-200">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center font-bold text-xs">GA</div>
-                        <div class="text-sm font-medium">Gagan, Ample Pubs</div>
-                    </div>
-                    <p class="text-sm text-gray-600 leading-relaxed">"The level of documentation and reliability is what you expect from a large agency. Highly recommended."</p>
-                </div>
-
-                <div class="bg-white p-6 border border-gray-200">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center font-bold text-xs">TR</div>
-                        <div class="text-sm font-medium">Tracy, CTO</div>
-                    </div>
-                    <p class="text-sm text-gray-600 leading-relaxed">"Transformed our raw data into actionable insights. The Python scripts are robust and error-handled perfectly."</p>
+    <footer class="bg-black text-white pt-24 pb-12 px-6 font-mono text-sm border-t-4 border-blue-600">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-2">
+                <h2 class="text-2xl font-bold mb-6 tracking-tighter">KRISHNA_RANA</h2>
+                <p class="text-gray-400 max-w-sm mb-8">
+                    Architecting the invisible layer of the internet. Eliminating inefficiency through code.
+                </p>
+                <div class="flex gap-4">
+                    <a href="mailto:krishnarana@automationexperts.tech" class="px-4 py-2 border border-white hover:bg-white hover:text-black transition-colors">EMAIL</a>
+                    <a href="https://www.linkedin.com/in/krishnaaarana/" target="_blank" class="px-4 py-2 border border-white hover:bg-white hover:text-black transition-colors">LINKEDIN</a>
                 </div>
             </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-white border-t border-gray-200 py-12">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-sm font-mono text-gray-500">
-                KR_AUTO_ARCHITECT &copy; 2025
+            <div>
+                <h3 class="text-gray-500 mb-4">SITEMAP</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li><a href="#work" class="hover:text-blue-400">Workflows</a></li>
+                    <li><a href="#capabilities" class="hover:text-blue-400">Capabilities</a></li>
+                    <li><a href="#intel" class="hover:text-blue-400">Intel</a></li>
+                </ul>
             </div>
-            <div class="flex gap-8 text-sm font-medium text-gray-600">
-                <a href="https://linkedin.com" class="hover:text-black">LinkedIn</a>
-                <a href="https://twitter.com" class="hover:text-black">Twitter</a>
-                <a href="https://github.com" class="hover:text-black">GitHub</a>
+            <div>
+                <h3 class="text-gray-500 mb-4">LOCATION</h3>
+                <p class="text-gray-300">Global Remote<br>Based in India (IST)</p>
+                <div class="mt-4 flex items-center gap-2 text-green-400 text-xs">
+                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                    <span>Operational</span>
+                </div>
             </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-gray-800 pt-8 flex justify-between text-gray-600 text-xs">
+            <div>© 2025 KRISHNA RANA SYSTEMS. ALL RIGHTS RESERVED.</div>
+            <div>V3.0.4 [STABLE]</div>
         </div>
     </footer>
 
     <script>
-        // Initialize Icons
         lucide.createIcons();
 
-        // Reveal Animation on scroll
+        // Reveal Animation
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
                 }
             });
         }, { threshold: 0.1 });
 
-        // Apply to sections
-        document.querySelectorAll('section').forEach((el) => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        document.querySelectorAll('section > div').forEach((el) => {
+            el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
             observer.observe(el);
         });
     </script>
