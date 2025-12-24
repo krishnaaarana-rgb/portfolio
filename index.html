@@ -432,7 +432,21 @@
                 duration: 1,
                 ease: "power3.out"
             });
+            // Reviews Stagger Animation
+        gsap.from(".review-card", {
+            scrollTrigger: {
+                trigger: ".review-card",
+                start: "top 85%",
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1, // This creates the "waterfall" effect
+            ease: "power2.out"
         });
+        });
+
+        
 
         // 5. CANVAS BACKGROUND (Subtle Neural Mesh)
         const canvas = document.getElementById('neural-canvas');
